@@ -1,4 +1,5 @@
 package bgu.spl.net.srv;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 public class ConnectionsImpl<T> implements Connections<T> {
@@ -30,6 +31,13 @@ public class ConnectionsImpl<T> implements Connections<T> {
     public void disconnect(int connectionId) {
         // TODO: הסירו את החיבור ממפת ה-Handlers הפעילים.
         // TODO: עברו על כל הערוצים והסירו את המשתמש הזה מרשימות המנויים, אם הוא מופיע שם.
+        ConnectionHandler<T> handler = handlers.remove(connectionId);
+        if(handler != null){
+            for(ConcurrentLinkedQueue<Integer> subscribers : channels.values()){
+                subscribers.remove(connectionId);
+            }
+        }
+        
     }
 
     // --- פונקציות עזר (לא ב-Interface, אבל הכרחיות לפרוטוקול) ---
@@ -39,6 +47,7 @@ public class ConnectionsImpl<T> implements Connections<T> {
      */
     public void addConnection(int connectionId, ConnectionHandler<T> handler) {
         // TODO: הוסיפו את החיבור למבנה הנתונים שלכם.
+        handlers.put(connectionId, handler);
     }
 
     /**
@@ -47,6 +56,7 @@ public class ConnectionsImpl<T> implements Connections<T> {
     public void subscribe(String channel, int connectionId) {
         // TODO: הוסיפו את המשתמש לרשימת המנויים של הערוץ הספציפי.
         // שימו לב: ייתכן והערוץ עדיין לא קיים במבנה הנתונים, צריך ליצור אותו אם הוא חסר.
+        channels.computeIfAbsent(channel, k -> new ConcurrentLinkedQueue<>()).add(connectionId); //creates a new channel entry if its not yet created
     }
 
     /**
@@ -54,5 +64,8 @@ public class ConnectionsImpl<T> implements Connections<T> {
      */
     public void unsubscribe(String channel, int connectionId) {
         // TODO: הסירו את המשתמש מרשימת המנויים של הערוץ.
+        ConcurrentLinkedQueue tempChannel = channels.get(channel);
+        if(tempChannel != null)
+            tempChannel.remove(connectionId);
     }
 }
