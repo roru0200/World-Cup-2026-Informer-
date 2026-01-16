@@ -1,7 +1,7 @@
 {
 	"name": "SPL-Ubuntu",
 	"build": {
-		"dockerfile": "Dockerfile"
+		"dockerfile": "dockerfile"
 	},
 		// Add the IDs of extensions you want installed when the container is created.
 		"extensions": [
