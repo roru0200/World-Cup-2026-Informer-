@@ -1,4 +1,4 @@
-package bgu.spl.net.impl.echo;
+/*package bgu.spl.net.impl.echo;
 
 import bgu.spl.net.srv.Server;
 
@@ -20,4 +20,4 @@ public class EchoServer {
         //         LineMessageEncoderDecoder::new //message encoder decoder factory
         // ).serve();
     }
-}
+}*/
