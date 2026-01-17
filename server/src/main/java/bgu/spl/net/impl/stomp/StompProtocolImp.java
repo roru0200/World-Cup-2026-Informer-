@@ -93,7 +93,7 @@ public class StompProtocolImp implements StompMessagingProtocol<StompFrame> {
             HashMap<String, String> errorHeaders = new HashMap<>();
             errorHeaders.put("message", "malformed frame recieved");
             String body = "The message:\n ------\n" + message.toString() + "---------\n"
-                        + "Missing  or invalid host header. could not login\n";
+                        + "Missing or invalid host header. could not login\n";
             processError(errorHeaders, body);
             return false;
         }
@@ -123,8 +123,6 @@ public class StompProtocolImp implements StompMessagingProtocol<StompFrame> {
             return false;
         }
         else{
-            // BROADCAST LOGIC
-            // 1. Get subscribers from ConnectionsImpl
             String destination = headers.get("destination");
             ConcurrentHashMap<Integer, String> subscribers = connections.getSubscribers(destination);
             
@@ -152,7 +150,7 @@ public class StompProtocolImp implements StompMessagingProtocol<StompFrame> {
             processError(errorHeaders, body);
             return false;
         }
-        else if(!message.getBody().equals("\n")){
+        else if(message.getBody() != null && !message.getBody().isEmpty()){
             HashMap<String, String> errorHeaders = new HashMap<>();
             errorHeaders.put("message", "malformed frame recieved");
             String body = "A SUBSCRIPTION frame should not contain a body.\n";
@@ -180,7 +178,7 @@ public class StompProtocolImp implements StompMessagingProtocol<StompFrame> {
             processError(errorHeaders, body);
             return false;
         }
-        else if(!message.getBody().equals("\n")){
+        else if(message.getBody() != null && !message.getBody().isEmpty()){
             HashMap<String, String> errorHeaders = new HashMap<>();
             errorHeaders.put("message", "malformed frame recieved");
             String body = "A UNSUBSCRIPTION frame should not contain a body.\n";
@@ -190,11 +188,23 @@ public class StompProtocolImp implements StompMessagingProtocol<StompFrame> {
 
         else{
             String channelId = headers.get("id");
-            connections.unsubscribe(subscriptionIds.get(channelId), myId);
-            subscriptionIds.remove(channelId);
-            return true;
+            String channel = subscriptionIds.get(channelId);
+            if (channel != null){
+                connections.unsubscribe(channel, myId);
+                subscriptionIds.remove(channelId);
+                return true;
+            }
+            else{//not sure if we need to be this strict
+                HashMap<String, String> errorHeaders = new HashMap<>();
+                errorHeaders.put("message", "malformed frame recieved");
+                String body = "The message:\n ------\n" + message.toString() + "---------\n"
+                            + "The subscription id provided does not exist.\n";
+                processError(errorHeaders, body);
+                return false;
+            }
         }
     }
+    
 
     private void processDisconnect(){
         connections.disconnect(myId);
@@ -214,7 +224,7 @@ public class StompProtocolImp implements StompMessagingProtocol<StompFrame> {
     private StompFrame createConnected(StompFrame message) {
         HashMap<String, String> headers = new HashMap<>();
         headers.put("version", "1.2");
-        return new StompFrame(StompFrame.SER_CONNECTED, headers, "\n");
+        return new StompFrame(StompFrame.SER_CONNECTED, headers, "");
     }
 
     private StompFrame createMessage(StompFrame message) {

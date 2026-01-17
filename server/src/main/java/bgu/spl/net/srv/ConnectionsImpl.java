@@ -1,12 +1,14 @@
 package bgu.spl.net.srv;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import bgu.spl.net.impl.stomp.StompFrame;
 public class ConnectionsImpl<T> implements Connections<T> {
 
-    private final ConcurrentHashMap<Integer, ConnectionHandler<T>> handlers = new ConcurrentHashMap<>();
-    private final ConcurrentHashMap<String, ConcurrentHashMap<Integer, String>> channels = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<Integer, ConnectionHandler<T>> handlers = new ConcurrentHashMap<>();// Map<connectionId, ConnectionHandler>
+    private final ConcurrentHashMap<String, ConcurrentHashMap<Integer, String>> channels = new ConcurrentHashMap<>(); // Map<channel, Map<connectionId, subscriptionId>>
+    private final ConcurrentHashMap<Integer, ConcurrentLinkedQueue<String>> userSubscriptions = new ConcurrentHashMap<>(); // Map<connectionId, List<channel>>
     
     @Override
     public boolean send(int connectionId, T msg) {
@@ -32,10 +34,11 @@ public class ConnectionsImpl<T> implements Connections<T> {
     public void disconnect(int connectionId) {
         // TODO: הסירו את החיבור ממפת ה-Handlers הפעילים.
         // TODO: עברו על כל הערוצים והסירו את המשתמש הזה מרשימות המנויים, אם הוא מופיע שם.
-        ConnectionHandler<T> handler = handlers.remove(connectionId);
-        if(handler != null){
-            for(ConcurrentHashMap<Integer, String> subscribers : channels.values()){
-                subscribers.remove(connectionId);
+        handlers.remove(connectionId);
+        ConcurrentLinkedQueue<String> userChannels = userSubscriptions.remove(connectionId);
+        if(userChannels != null){
+            for (String channel : userChannels) {
+            channels.get(channel).remove(connectionId);
             }
         }
         
@@ -58,16 +61,19 @@ public class ConnectionsImpl<T> implements Connections<T> {
         // TODO: הוסיפו את המשתמש לרשימת המנויים של הערוץ הספציפי.
         // שימו לב: ייתכן והערוץ עדיין לא קיים במבנה הנתונים, צריך ליצור אותו אם הוא חסר.
         channels.computeIfAbsent(channel, k -> new ConcurrentHashMap<>()).put(connectionId, subscriptionId); //creates a new channel entry if its not yet created
+        userSubscriptions.computeIfAbsent(connectionId, k -> new ConcurrentLinkedQueue<>()).add(channel); //adds the channel to the user's list of subscriptions
     }
 
     /**
      * פונקציה שהפרוטוקול יקרא לה כשמתקבל פריימים של UNSUBSCRIBE
      */
     public void unsubscribe(String channel, int connectionId) {
-        // TODO: הסירו את המשתמש מרשימת המנויים של הערוץ.
         ConcurrentHashMap<Integer, String> tempChannel = channels.get(channel);
         if(tempChannel != null)
             tempChannel.remove(connectionId);
+        ConcurrentLinkedQueue<String> userChannels = userSubscriptions.get(connectionId);
+        if(userChannels != null)
+            userChannels.remove(channel);
     }
     public ConcurrentHashMap<Integer, String> getSubscribers(String channel) {
         return channels.get(channel);
