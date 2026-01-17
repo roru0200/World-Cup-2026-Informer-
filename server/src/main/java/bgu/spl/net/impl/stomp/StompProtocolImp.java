@@ -1,0 +1,233 @@
+package bgu.spl.net.impl.stomp;
+
+import java.util.HashMap;
+
+import bgu.spl.net.api.StompMessagingProtocol;
+import bgu.spl.net.srv.Connections;
+import bgu.spl.net.srv.ConnectionsImpl;
+import bgu.spl.net.impl.stomp.*;
+
+public class StompProtocolImp implements StompMessagingProtocol<StompFrame> {
+
+    private boolean shouldTerminate = false;
+    private int myId;
+    private ConnectionsImpl<StompFrame> connections;
+    private boolean isLoggedIn = false;
+    private HashMap<String, String> subscriptionIds;
+    private String recieptId = null;
+    private int msgCounter;
+
+    @Override
+    public void start(int connectionId, Connections<StompFrame> connections){
+        myId = connectionId;
+        msgCounter = 0;
+        this.connections = (ConnectionsImpl<StompFrame>)connections;
+        subscriptionIds = new HashMap<>();
+    }
+    
+    public void process(StompFrame message){
+        recieptId = null;
+        if(message.needsReceipt())
+            recieptId = message.getHeaders().get("receipt");
+
+        if(!isLoggedIn && message.getCommand() != StompFrame.CLI_CONNECT) //checks if logged in first
+        {
+            HashMap<String, String> headers = new HashMap<>();
+            headers.put("message", "user not logged in");
+            String body = "You must login first";
+
+            processError(headers, body);
+        }
+
+        else{
+
+            if(recieptId != null){ //check if needs receipt
+                sendReceipt(recieptId);
+            }
+
+            switch (message.getCommand()) {
+                case StompFrame.CLI_CONNECT:
+                    processConnect(message);
+                    break;
+
+                case StompFrame.CLI_SEND:
+                    processSend(message);;
+                    break;
+
+                case StompFrame.CLI_SUBSCRIBE:
+                    processSubscribe(message);
+                    break;
+
+                case StompFrame.CLI_UNSUBSCRIBE:
+                    processUnsubscribe(message);
+                    break;
+
+                case StompFrame.CLI_DISCONNECT:
+                    processDisconnect();
+                    break;
+
+                default:
+                    HashMap<String, String> headers = new HashMap<>();
+                    headers.put("message", "Unknown or unsupported command");
+                    processError(headers, "\n");
+                    break;
+            }
+        }
+
+    }
+
+    private void processConnect(StompFrame message){
+        HashMap<String, String> headers = message.getHeaders();
+
+        if(!headers.containsKey("version") || headers.get("version") != "1.2"){
+            HashMap<String, String> errorHeaders = new HashMap<>();
+            errorHeaders.put("message", "malformed frame recieved");
+            String body = "The message:\n ------\n" + message.toString() + "---------\n"
+                        + "Missing or invalid verison header. could not login\n";
+            processError(errorHeaders, body);
+        }
+
+        else if(!headers.containsKey("host") || headers.get("host") != "stomp.cs.bgu.ac.il"){
+            HashMap<String, String> errorHeaders = new HashMap<>();
+            errorHeaders.put("message", "malformed frame recieved");
+            String body = "The message:\n ------\n" + message.toString() + "---------\n"
+                        + "Missing  or invalid host header. could not login\n";
+            processError(errorHeaders, body);
+        }
+        //login check function
+        else if(!login()){
+            HashMap<String, String> errorHeaders = new HashMap<>();
+            errorHeaders.put("message", "Invalid user name or password");
+            processError(errorHeaders, "The message:\n ------\n" + message.toString() + "---------\n");
+        }
+
+        else{
+            connections.send(myId, createConnected(message));
+        }
+    }
+
+    private void processSend(StompFrame message){
+        HashMap<String, String> headers = message.getHeaders();
+        if(!headers.containsKey("destination")){
+            HashMap<String, String> errorHeaders = new HashMap<>();
+            errorHeaders.put("message", "malformed frame recieved");
+            String body = "The message:\n ------\n" + message.toString() + "---------\n"
+                        + "Did not contain a destination header which is REQUIRED for message propagation.\n";
+            processError(errorHeaders, body);
+        }
+        else{
+            StompFrame outMsg = createMessage(message);
+            connections.send(headers.get("destination"), outMsg);
+        }
+    }
+
+    private void processSubscribe(StompFrame message){
+        HashMap<String, String> headers = message.getHeaders();
+
+        if(!headers.containsKey("destination") || !headers.containsKey("id")){
+            HashMap<String, String> errorHeaders = new HashMap<>();
+            errorHeaders.put("message", "malformed frame recieved");
+            String body = "The message:\n ------\n" + message.toString() + "---------\n"
+                        + "Did not contain a 'destination' and/or 'id' header which is REQUIRED for message propagation.\n";
+            processError(errorHeaders, body);
+        }
+        else if(message.getBody() != "\n"){
+            HashMap<String, String> errorHeaders = new HashMap<>();
+            errorHeaders.put("message", "malformed frame recieved");
+            String body = "A SUBSCRIPTION frame should not contain a body.\n";
+            processError(errorHeaders, body);
+        }
+
+        else{
+            String channel = headers.get("destination");
+            String channelId = headers.get("id");
+            connections.subscribe(channel, myId);
+            subscriptionIds.put(channelId, channel);
+        }
+    }
+
+    private void processUnsubscribe(StompFrame message){
+        HashMap<String, String> headers = message.getHeaders();
+
+        if(!headers.containsKey("id")){
+            HashMap<String, String> errorHeaders = new HashMap<>();
+            errorHeaders.put("message", "malformed frame recieved");
+            String body = "The message:\n ------\n" + message.toString() + "---------\n"
+                        + "Did not contain a 'id' header which is REQUIRED for message propagation.\n";
+            processError(errorHeaders, body);
+        }
+        else if(message.getBody() != "\n"){
+            HashMap<String, String> errorHeaders = new HashMap<>();
+            errorHeaders.put("message", "malformed frame recieved");
+            String body = "A UNSUBSCRIPTION frame should not contain a body.\n";
+            processError(errorHeaders, body);
+        }
+
+        else{
+            String channelId = headers.get("id");
+            connections.unsubscribe(subscriptionIds.get(channelId), myId);
+            subscriptionIds.remove(channelId);
+        }
+    }
+
+    private void processDisconnect(){
+        connections.disconnect(myId);
+        isLoggedIn = false;
+        shouldTerminate = true;
+    }
+
+    private void processError(HashMap<String, String> headers, String body){
+        if(recieptId != null)
+            headers.put("receipt-id", recieptId);
+
+        StompFrame error = new StompFrame(StompFrame.SER_ERROR, headers, body);
+        connections.send(myId, error);
+        processDisconnect();
+    }
+
+    private StompFrame createConnected(StompFrame message) {
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put("version", "1.2");
+        return new StompFrame(StompFrame.SER_CONNECTED, headers, "\n");
+    }
+
+    private StompFrame createMessage(StompFrame message) {
+        HashMap<String, String> headers = message.getHeaders();
+
+        HashMap<String, String> msgHeaders = new HashMap<>();
+        msgHeaders.put("subscription", "1.2");
+        return new StompFrame(StompFrame.SER_CONNECTED, msgHeaders, "\n");
+    }
+
+    /*private StompFrame createError(StompFrame message) {
+        int command = StompFrame.SER_ERROR;
+        HashMap<String, String> headers = new HashMap<>();
+        String body = "";
+
+        if(!isLoggedIn){
+            headers.put("message", "user not logged in");
+            body = "You must login first";
+        }
+
+
+    }*/
+
+    private void sendError(StompFrame message){
+
+    }
+
+    private StompFrame sendReceipt(String recieptId) {
+        return null;
+    }
+
+    private boolean login() {//placeholder
+        isLoggedIn = true;
+        return true;
+    }
+	
+	@Override
+    public boolean shouldTerminate(){
+        return shouldTerminate;
+    };
+    
+}
