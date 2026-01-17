@@ -19,16 +19,11 @@ public class ConnectionsImpl<T> implements Connections<T> {
     }
 
     @Override
-    public void send(String channel, T msg) { //brodacast to all subscribers in the channel
+    public void send(String channel, T msg) {
         ConcurrentHashMap<Integer, String> subscribers = channels.get(channel);
-
         if (subscribers != null) {
-            for (Map.Entry<Integer, String> entry : subscribers.entrySet()) {
-
-                if (msg instanceof StompFrame) 
-                    ((StompFrame) msg).getHeaders().put("subscription", entry.getValue());
-                
-                send(entry.getKey(), msg);
+            for (Integer connectionId : subscribers.keySet()) {
+                send(connectionId, msg);
             }
         }
     }
@@ -73,5 +68,8 @@ public class ConnectionsImpl<T> implements Connections<T> {
         ConcurrentHashMap<Integer, String> tempChannel = channels.get(channel);
         if(tempChannel != null)
             tempChannel.remove(connectionId);
+    }
+    public ConcurrentHashMap<Integer, String> getSubscribers(String channel) {
+        return channels.get(channel);
     }
 }
