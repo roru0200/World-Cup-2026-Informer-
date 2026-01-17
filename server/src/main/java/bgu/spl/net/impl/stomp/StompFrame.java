@@ -20,10 +20,18 @@ public class StompFrame {
     private String body;
 
     public StompFrame(String rawFrame){
-
+        headers = new HashMap<>();
         int cmdEnd = rawFrame.indexOf('\n');
-        String cmdString = rawFrame.substring(0, cmdEnd);
-        rawFrame = rawFrame.substring(cmdEnd + 1);
+        if (cmdEnd == -1) {
+            cmdEnd = rawFrame.length(); // Handle case with no newline
+        }
+        // Trim removes accidental whitespace (e.g., " SEND ")
+        String cmdString = rawFrame.substring(0, cmdEnd).trim();
+        if (cmdEnd < rawFrame.length()) {
+            rawFrame = rawFrame.substring(cmdEnd + 1);
+        } else {
+            rawFrame = "";
+        }
         
         switch (cmdString) {
             case "CONNECTED":
@@ -67,16 +75,33 @@ public class StompFrame {
                 break;
         }
 
-        while(rawFrame.charAt(0) != '\n'){
+        while(!rawFrame.isEmpty() && rawFrame.charAt(0) != '\n'){//isEmpty to prevent crash on empty lines
             int endHeaderName = rawFrame.indexOf(':');
             int endHeader = rawFrame.indexOf('\n');
+            // If headers are malformed, stop parsing to avoid crash
+            if (endHeaderName == -1 || endHeader == -1) {
+                break; 
+            }
             String headerName = rawFrame.substring(0, endHeaderName);
             String headerValue = rawFrame.substring(endHeaderName + 1, endHeader);
             headers.put(headerName, headerValue);
-            rawFrame = rawFrame.substring(endHeader + 1);
+            if (endHeader + 1 < rawFrame.length()) {
+                rawFrame = rawFrame.substring(endHeader + 1);
+            } 
+            else {
+                rawFrame = "";
+                break;
+            }
         }
-
-        body = rawFrame.substring(0, rawFrame.indexOf('\u0000'));
+        if (!rawFrame.isEmpty() && rawFrame.charAt(0) == '\n') {//skip the empty line
+            rawFrame = rawFrame.substring(1);
+        }
+        int nullIndex = rawFrame.indexOf('\u0000');//find the null terminator and extract body accordingly
+        if (nullIndex != -1) {
+            body = rawFrame.substring(0, nullIndex);
+        } else {
+            body = rawFrame;
+        }
     }
 
 
@@ -156,9 +181,10 @@ public class StompFrame {
             String headerValue = header.getValue();
             sb.append(headerName + ":" + headerValue + "\n");
         }
-
-        sb.append(body + '\u0000');
-        
+        sb.append("\n");
+        if (body != null)
+            sb.append(body);
+        sb.append('\u0000');
         return sb.toString();
     }
 }

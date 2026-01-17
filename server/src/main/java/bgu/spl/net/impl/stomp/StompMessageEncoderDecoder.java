@@ -13,8 +13,10 @@ public class StompMessageEncoderDecoder implements MessageEncoderDecoder<StompFr
     
     @Override
     public StompFrame decodeNextByte(byte nextByte){
-        if(nextByte == '\u0000')
+        if(nextByte == '\u0000'){
+            pushByte(nextByte);
             return popFrame();
+        }
 
         pushByte(nextByte);
         return null;

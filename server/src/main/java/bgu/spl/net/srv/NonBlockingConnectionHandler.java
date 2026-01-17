@@ -119,13 +119,6 @@ public class NonBlockingConnectionHandler<T> implements ConnectionHandler<T> {
     @Override
     public void send(T msg) {
         //IMPLEMENT IF NEEDED
-        if (msg instanceof StompFrame) {
-            if (((StompFrame) msg).getCommand() == StompFrame.SER_MESSAGE){
-                String channel = ((StompFrame) msg).getHeaders().get("destination");
-                String subscriptionId = ((StompProtocolImp)protocol).getSubscriptionID(channel);
-                ((StompFrame) msg).getHeaders().put("subscription", subscriptionId);
-            }
-        }
         if(msg != null){
             writeQueue.add(ByteBuffer.wrap(encdec.encode(msg)));
             reactor.updateInterestedOps(chan, SelectionKey.OP_READ | SelectionKey.OP_WRITE);

@@ -59,13 +59,6 @@ public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler
         synchronized(this){
             try{
                 if(msg != null){
-                    if (msg instanceof StompFrame) {
-                        if (((StompFrame) msg).getCommand() == StompFrame.SER_MESSAGE){
-                            String channel = ((StompFrame) msg).getHeaders().get("destination");
-                            String subscriptionId = ((StompProtocolImp)protocol).getSubscriptionID(channel);
-                            ((StompFrame) msg).getHeaders().put("subscription", subscriptionId);
-                        }
-                    }
                     out.write(encdec.encode(msg));
                     out.flush();
                 }
