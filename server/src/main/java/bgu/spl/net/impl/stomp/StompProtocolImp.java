@@ -193,31 +193,27 @@ public class StompProtocolImp implements StompMessagingProtocol<StompFrame> {
 
     private StompFrame createMessage(StompFrame message) {
         HashMap<String, String> headers = message.getHeaders();
-
         HashMap<String, String> msgHeaders = new HashMap<>();
-        msgHeaders.put("subscription", "1.2");
-        return new StompFrame(StompFrame.SER_CONNECTED, msgHeaders, "\n");
+
+        msgHeaders.put("message-id",myId+ "." + Integer.toString(msgCounter++));
+        msgHeaders.put("destination", headers.get("destination"));
+        return new StompFrame(StompFrame.SER_MESSAGE, msgHeaders, message.getBody());
     }
 
-    /*private StompFrame createError(StompFrame message) {
-        int command = StompFrame.SER_ERROR;
-        HashMap<String, String> headers = new HashMap<>();
-        String body = "";
-
-        if(!isLoggedIn){
-            headers.put("message", "user not logged in");
-            body = "You must login first";
+    public String getSubscriptionID(String channel){
+        for (String key : subscriptionIds.keySet()) {
+            if (subscriptionIds.get(key).equals(channel)) {
+                return key;
+            }
         }
-
-
-    }*/
-
-    private void sendError(StompFrame message){
-
+        return null;
     }
 
-    private StompFrame sendReceipt(String recieptId) {
-        return null;
+
+    private void sendReceipt(String recieptId) {
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put("receipt-id", recieptId);
+        connections.send(myId, new StompFrame(StompFrame.SER_RECEIPT, headers, "\n"));
     }
 
     private boolean login() {//placeholder
