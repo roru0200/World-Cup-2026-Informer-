@@ -39,7 +39,7 @@ public:
     const std::string &get_discription() const;
 };
 
-// an object that holds the names of the teams and a vector of events, to be returned by the parseEventsFile function
+// an object that holdstd::map<std::string, std::map<std::string, std::vector<Event>>> gameUpdates_;s the names of the teams and a vector of events, to be returned by the parseEventsFile function
 struct names_and_events {
     std::string team_a_name;
     std::string team_b_name;
