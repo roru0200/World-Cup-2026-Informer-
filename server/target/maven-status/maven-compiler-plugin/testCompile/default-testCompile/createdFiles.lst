@@ -1,0 +1,7 @@
+bgu/spl/net/impl/stomp/StompFrameTest.class
+bgu/spl/net/impl/stomp/IntegrationTest.class
+bgu/spl/net/impl/stomp/ServerSystemTest.class
+bgu/spl/net/impl/stomp/StompMessageEncoderDecoderTest.class
+bgu/spl/net/impl/stomp/StompProtocolTest$1.class
+bgu/spl/net/impl/stomp/StompProtocolTest$MockConnections.class
+bgu/spl/net/impl/stomp/StompProtocolTest.class

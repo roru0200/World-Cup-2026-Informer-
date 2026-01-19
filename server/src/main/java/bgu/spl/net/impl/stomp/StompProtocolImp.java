@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import bgu.spl.net.api.StompMessagingProtocol;
 import bgu.spl.net.srv.Connections;
 import bgu.spl.net.srv.ConnectionsImpl;
+import bgu.spl.net.impl.data.LoginStatus;
 import bgu.spl.net.impl.stomp.*;
 
 public class StompProtocolImp implements StompMessagingProtocol<StompFrame> {
@@ -79,46 +80,55 @@ public class StompProtocolImp implements StompMessagingProtocol<StompFrame> {
 
     private boolean processConnect(StompFrame message){
         HashMap<String, String> headers = message.getHeaders();
+        String missingHeader = findMissingHeader(headers, "accept-version", "host", "login", "passcode");
 
-        if(!headers.containsKey("version") || !headers.get("version").equals("1.2")){
+        if(missingHeader != null){
             HashMap<String, String> errorHeaders = new HashMap<>();
             errorHeaders.put("message", "malformed frame recieved");
             String body = "The message:\n ------\n" + message.toString() + "---------\n"
-                        + "Missing or invalid verison header. could not login\n";
+                        + "Missing or invalid " + missingHeader + " header. could not login\n";
+            processError(errorHeaders, body);
+            return false;
+        }
+        if(!headers.get("accept-version").equals("1.2")){
+            HashMap<String, String> errorHeaders = new HashMap<>();
+            errorHeaders.put("message", "malformed frame recieved");
+            String body = "The message:\n ------\n" + message.toString() + "---------\n"
+                        + "Invalid verison. could not login\n";
             processError(errorHeaders, body);
             return false;
         }
 
-        else if(!headers.containsKey("host") || !headers.get("host").equals("stomp.cs.bgu.ac.il")){
+        else if(!headers.get("host").equals("stomp.cs.bgu.ac.il")){
             HashMap<String, String> errorHeaders = new HashMap<>();
             errorHeaders.put("message", "malformed frame recieved");
             String body = "The message:\n ------\n" + message.toString() + "---------\n"
-                        + "Missing or invalid host header. could not login\n";
+                        + "Invalid host. could not login\n";
             processError(errorHeaders, body);
             return false;
         }
+
         //login check function
-        else if(!login()){
-            HashMap<String, String> errorHeaders = new HashMap<>();
-            errorHeaders.put("message", "Invalid user name or password");
-            processError(errorHeaders, "The message:\n ------\n" + message.toString() + "---------\n");
+        else{
+            login(headers.get("login"), headers.get("passcode"));
+            if(isLoggedIn){
+                connections.send(myId, createConnected(message));
+                return true;
+            }
             return false;
         }
 
-        else{
-            connections.send(myId, createConnected(message));
-            return true;
-        }
     }
 
     private boolean processSend(StompFrame message){
         HashMap<String, String> headers = message.getHeaders();
+        String missingHeader = findMissingHeader(headers, "destination");
         
-        if(!headers.containsKey("destination")){
+        if(missingHeader != null){
             HashMap<String, String> errorHeaders = new HashMap<>();
             errorHeaders.put("message", "malformed frame recieved");
             String body = "The message:\n ------\n" + message.toString() + "---------\n"
-                        + "Did not contain a destination header which is REQUIRED for message propagation.\n";
+                        + "Did not contain a " + missingHeader + " header which is REQUIRED for message propagation.\n";
             processError(errorHeaders, body);
             return false;
         }
@@ -141,12 +151,13 @@ public class StompProtocolImp implements StompMessagingProtocol<StompFrame> {
 
     private boolean processSubscribe(StompFrame message){
         HashMap<String, String> headers = message.getHeaders();
-
-        if(!headers.containsKey("destination") || !headers.containsKey("id")){
+        String missingHeader = findMissingHeader(headers, "destination", "id");
+        
+        if(missingHeader != null){
             HashMap<String, String> errorHeaders = new HashMap<>();
             errorHeaders.put("message", "malformed frame recieved");
             String body = "The message:\n ------\n" + message.toString() + "---------\n"
-                        + "Did not contain a 'destination' and/or 'id' header which is REQUIRED for message propagation.\n";
+                        + "Did not contain a " + missingHeader + " header which is REQUIRED for message propagation.\n";
             processError(errorHeaders, body);
             return false;
         }
@@ -205,9 +216,14 @@ public class StompProtocolImp implements StompMessagingProtocol<StompFrame> {
         }
     }
     
-
     private void processDisconnect(){
+        if (recieptId != null) {
+            sendReceipt(recieptId);
+        }
+        
         connections.disconnect(myId);
+
+        recieptId = null;
         isLoggedIn = false;
         shouldTerminate = true;
     }
@@ -252,9 +268,42 @@ public class StompProtocolImp implements StompMessagingProtocol<StompFrame> {
         connections.send(myId, new StompFrame(StompFrame.SER_RECEIPT, headers, "\n"));
     }
 
-    private boolean login() {//placeholder
-        isLoggedIn = true;
-        return true;
+    private boolean login(String username, String password) {//placeholder
+        LoginStatus logStatus = connections.login(myId, username, password);
+        switch(logStatus){
+            case ALREADY_LOGGED_IN:
+            case CLIENT_ALREADY_CONNECTED:
+            case WRONG_PASSWORD:
+                HashMap<String, String> errorHeaders = new HashMap<>();
+                if(logStatus == LoginStatus.ALREADY_LOGGED_IN)
+                    errorHeaders.put("message", "You are already logged in");
+                if(logStatus == LoginStatus.CLIENT_ALREADY_CONNECTED)
+                    errorHeaders.put("message", "You are already connected");
+                if(logStatus == LoginStatus.WRONG_PASSWORD)
+                    errorHeaders.put("message", "Invalid user name or password");
+                
+                processError(errorHeaders, "\n");
+                return false;
+            
+            case LOGGED_IN_SUCCESSFULLY:
+            case ADDED_NEW_USER:
+                isLoggedIn = true;
+                return true;
+
+            default:
+                return false;
+        }
+    }
+
+     //Check if a map contains all of the headers
+     //returns null if true, the key missing key if not
+    private String findMissingHeader(Map<String, String> headers, String... requiredKeys) {
+        for (String key : requiredKeys) {
+            if (!headers.containsKey(key)) {
+                return key;
+            }
+        }
+        return null;
     }
 	
 	@Override
