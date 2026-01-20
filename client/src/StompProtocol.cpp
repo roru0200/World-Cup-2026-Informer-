@@ -13,44 +13,53 @@ StompProtocol::StompProtocol(){
     //placeholder
 }
 
-string StompProtocol::processKeyboardMessage(string message) {
+vector<string> StompProtocol::processKeyboardMessage(string message) {
     // TODO: Implement logic
     vector<string> args = split(message, ' ');
 
     string commandName = args[0];
-
+    vector<string> output_frames;
     if (commandName == "login") {
-        string hostPort = args[1];
-        string user = args[2];
-        string pass = args[3];
+        if (!isLoggedIn){
+            string hostPort = args[1];
+            string user = args[2];
+            string pass = args[3];
 
-        size_t position = hostPort.find(':');
-        string host = hostPort.substr(0, position);
-        string portStr = hostPort.substr(position + 1);
+            size_t position = hostPort.find(':');
+            string host = hostPort.substr(0, position);
+            string portStr = hostPort.substr(position + 1);
 
-        this->username = args[2];
+            this->username = args[2];
 
-        return sendLogin(host, portStr, username, pass);
+            output_frames.push_back(sendLogin(host, portStr, username, pass));
+        }
+        else{
+            output_frames.push_back("");
+            cout << "The client is already logged in, log out before trying again";
+        }
     } 
     
     else if(commandName == "join")
-        return sendSubscribe(args[1]);
+        output_frames.push_back(sendSubscribe(args[1]));
 
     else if(commandName == "exit")
-        return sendUnsubscribe(args[1]);
+        output_frames.push_back(sendUnsubscribe(args[1]));
 
     else if(commandName == "report")
-        return processReport(args[1]);
+        output_frames = processReport(args[1]);
 
     else if(commandName == "summary")
-        return;
+        output_frames.push_back("");
 
     else if(commandName == "logout")
-        return sendLogout();
+        output_frames.push_back(sendLogout());
+
+    return output_frames;
 }
 
 string StompProtocol::processSocketMessage(string message) {
-    // TODO: Implement logic
+    StompFrame frame = str(message);
+
     
 }
 
@@ -72,10 +81,11 @@ string StompProtocol::sendLogout() {
     StompFrame frame;
     frame.command = Command::DISCONNECT;
     frame.headers["receipt"] = receiptIdCounter;
+    receipts[receiptIdCounter] = "USER DISCONNECTED";
     receiptIdCounter++;
     loggedIn = false;
     return frameToString(frame);
-    
+
 }
 
 string StompProtocol::sendSubscribe(string gameName) {
@@ -124,9 +134,11 @@ string StompProtocol::sendSend(string destination, string message) {
     // TODO: Implement logic
 }
 
-string StompProtocol::handleReceipt(StompFrame& frame) {
+void StompProtocol::handleReceipt(StompFrame& frame) {
     string receiptMessage = frame.headers["receipt"];
     cout << receiptMessage << endl;
+    if (receiptMessage.compare("USER DISCONNECTED"))
+        setLoggedIn(false);
 }
 
 string StompProtocol::frameToString(const StompFrame& frame) {
@@ -143,6 +155,35 @@ string StompProtocol::frameToString(const StompFrame& frame) {
     ss << frame.body;
 
     return ss.str();
+}
+
+StompFrame StompProtocol::stringToFrame(const string& message){
+    StompFrame frame;
+    size_t currentChar = 0;
+    size_t len = message.length();
+    size_t commandEnd = message.find('\n', currentChar);
+    frame.command = stringToCommand(message.substr(0, commandEnd));
+    currentChar = commandEnd + 1;
+    while (currentChar < len && message[currentChar] != '\n') {
+        
+        size_t endHeaderName = message.find(':', currentChar);
+        size_t endHeaderLine = message.find('\n', currentChar);
+
+        // if headers are malformed stop parsing to pervent crash
+        if (endHeaderName == string::npos || endHeaderLine == string::npos) {
+            break; 
+        }
+
+        string key = message.substr(currentChar, endHeaderName - currentChar);
+        
+        string value = message.substr(endHeaderName + 1, endHeaderLine - (endHeaderName + 1));
+        
+        frame.headers[key] = value;
+
+        currentChar = endHeaderLine + 1;
+    }
+
+    
 }
 
 StompFrame::Command StompProtocol::stringToCommand(const std::string& cmd) {

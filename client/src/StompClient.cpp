@@ -18,7 +18,7 @@ void SocketReaderThread(ConnectionHandler* connectionHandler, StompProtocol& pro
 			protocol.setLoggedIn(false);
 			break;
 		}
-		protocol.processMessage(response);
+		protocol.processSocketMessage(response);
 	}
 }
 
@@ -55,13 +55,13 @@ int main(int argc, char *argv[]) {
 					continue;
 				}
 				// socket connected, send login frame
-				vector<string> login_frame_vector = protocol.proccessKeyboardMessage(line);
+				vector<string> login_frame_vector = protocol.processKeyboardMessage(line);
 				string login_frame = login_frame_vector[0];
 				handler->sendFrameAscii(login_frame, '\0');
 				//proccessing server response
 				string response;
 				handler->getFrameAscii(response, '\0');
-				protocol.processServerMessage(response);
+				protocol.processSocketMessage(response);
 
 				continue;
 			}
@@ -83,9 +83,10 @@ int main(int argc, char *argv[]) {
 			if (!protocol.isLoggedIn()) break;
 
 			if (!line.empty()){
-				vector<string> frames_vector = protocol.proccessKeyboardMessage(line);
-				for (const string& frame : frames_vector) 
-					handler->sendFrameAscii(frame, '\0');
+				vector<string> frames_vector = protocol.processKeyboardMessage(line);
+				for (const string& frame : frames_vector)
+					if (!frame.empty()) 
+						handler->sendFrameAscii(frame, '\0');
 			}
 
 			//gracfully handle logout, to not hang waiting for keyboard input 
@@ -94,7 +95,7 @@ int main(int argc, char *argv[]) {
                     break;
                 }
             }
-			//=============================LOGGED IN LOOP END===========================
+		//=============================LOGGED IN LOOP END=============================
 			
 		    //in case of sudden exit caused by an error message, clean up
 			if (socketThread.joinable()) socketThread.join();
