@@ -68,12 +68,13 @@ private:
 	string sendSubscribe(string gameName);
 	string sendUnsubscribe(string gameName);
 	string sendSend(string destination, string message);
+    vector<string> processReport(string path);
 
     //frame handlers
-    vector<string> processReport(string path);
-	string handleReceipt();
+	string handleReceipt(StompFrame& frame);
     string handleMessage(StompFrame& frame);
     string handleError(StompFrame& frame);
+    string handleSummery();
     
 
 public:
