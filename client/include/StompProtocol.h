@@ -40,31 +40,52 @@ class StompProtocol
 {
 private:
     string username;
+
+    //logic variables
     mutex mtx;
+    bool loggedIn;
+
+    //counters
     int subscriptionIdCounter;
     int receiptIdCounter;
+
+    //data structures
     map<string, int> gameToSubId; //map<GameName, SubscriptionID>
     map<string, map<string, vector<Event>>> gameUpdates; //map<GameName, map<UserName, Event>
     map<int, string> receipts; //map<ReceiptID, returnMessage>
-    bool loggedIn;
-    string frameToString(const StompFrame& frame);
 
-public:
-	StompProtocol();
-	string processKeyboardMessage(string message);
-	string processSocketMessage(string message);
-	string sendLogin(string host, string port, string username, string password);
+    //helper functions
+    vector<string> split(const string &s, char delimiter);
+    string frameToString(const StompFrame& frame);
+    
+    //command converters
+    static StompFrame::Command stringToCommand(const string& cmd);
+    static string commandToString(StompFrame::Command cmd);
+
+    //frame creators
+    string sendLogin(string host, string port, string username, string password);
 	string sendLogout();
 	string sendSubscribe(string gameName);
 	string sendUnsubscribe(string gameName);
 	string sendSend(string destination, string message);
+
+    //frame handlers
     vector<string> processReport(string path);
 	string handleReceipt();
-    static StompFrame::Command stringToCommand(const string& cmd);
-    static string commandToString(StompFrame::Command cmd);
-    vector<string> split(const string &s, char delimiter);
+    string handleMessage(StompFrame& frame);
+    string handleError(StompFrame& frame);
+    
+
+public:
+	StompProtocol();
+
+    //proccessing functions
+	string processKeyboardMessage(string message);
+	string processSocketMessage(string message);
+
+    //login functions
     void setLoggedIn(bool logged);
-    bool getLoggedIn();
+    bool isLoggedIn();
 
 };
 
