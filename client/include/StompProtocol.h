@@ -1,25 +1,70 @@
 #pragma once
 
 #include "../include/ConnectionHandler.h"
+#include "../include/event.h"
+#include <stdlib.h>
+
+using std::string;
+using std::map;
+using std::mutex;
+using std::vector;
+using std::lock_guard;
+
+struct StompFrame {
+
+	enum class Command {
+            CONNECT,
+            CONNECTED,
+            SEND,
+            SUBSCRIBE,
+            UNSUBSCRIBE,
+            MESSAGE,
+            RECEIPT,
+            ERROR,
+            DISCONNECT,
+            UNKNOWN
+        };
+
+    Command command;
+    map<std::string, string> headers;
+    string body;
+
+    StompFrame(Command cmd, map<string, string> hdrs, string b)
+        : command(cmd), headers(hdrs), body(b) {}
+        
+    StompFrame() : command(Command::UNKNOWN), headers(), body("") {}
+};
 
 // TODO: implement the STOMP protocol
 class StompProtocol
 {
 private:
-std::string& username;
-std::mutex mtx;
-int subscriptionIdCounter;
-std::map<std::string, int> gameToSubId;
-std::map<std::string, std::map<std::string, std::vector<event>>> gameUpdates_;
-
+    string username;
+    mutex mtx;
+    int subscriptionIdCounter;
+    int receiptIdCounter;
+    map<string, int> gameToSubId; //map<GameName, SubscriptionID>
+    map<string, map<string, vector<Event>>> gameUpdates; //map<GameName, map<UserName, Event>
+    map<int, string> receipts; //map<ReceiptID, returnMessage>
+    bool loggedIn;
+    string frameToString(const StompFrame& frame);
 
 public:
-	StompProtocol(std::string& username, ConnectionHandler& connectionHandler, bool& shouldTerminate);
-	void processMessage(std::string message);
-	void sendLogin();
-	void sendLogout();
-	void sendSubscribe(std::string gameName);
-	void sendUnsubscribe(std::string gameName);
-	void sendSend(std::string destination, std::string message);
+	StompProtocol();
+	string processKeyboardMessage(string message);
+	string processSocketMessage(string message);
+	string sendLogin(string host, string port, string username, string password);
+	string sendLogout();
+	string sendSubscribe(string gameName);
+	string sendUnsubscribe(string gameName);
+	string sendSend(string destination, string message);
+    vector<string> processReport(string path);
+	string handleReceipt();
+    static StompFrame::Command stringToCommand(const string& cmd);
+    static string commandToString(StompFrame::Command cmd);
+    vector<string> split(const string &s, char delimiter);
+    void setLoggedIn(bool logged);
+    bool getLoggedIn();
 
 };
+
