@@ -6,6 +6,8 @@
 using Command = StompFrame::Command;
 using std::vector;
 using std::stringstream;
+using std::cout;
+using std::endl;
 
 StompProtocol::StompProtocol(){
     //placeholder
@@ -122,8 +124,9 @@ string StompProtocol::sendSend(string destination, string message) {
     // TODO: Implement logic
 }
 
-string StompProtocol::handleReceipt() {
-    // TODO: Implement logic
+string StompProtocol::handleReceipt(StompFrame& frame) {
+    string receiptMessage = frame.headers["receipt"];
+    cout << receiptMessage << endl;
 }
 
 string StompProtocol::frameToString(const StompFrame& frame) {
