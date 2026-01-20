@@ -7,8 +7,8 @@ using Command = StompFrame::Command;
 using std::vector;
 using std::stringstream;
 
-StompProtocol::StompProtocol(string& username_, ConnectionHandler& connectionHandler) : username(username_), handler(connectionHandler){
-
+StompProtocol::StompProtocol(){
+    //placeholder
 }
 
 string StompProtocol::processKeyboardMessage(string message) {
@@ -38,7 +38,7 @@ string StompProtocol::processKeyboardMessage(string message) {
         return sendUnsubscribe(args[1]);
 
     else if(commandName == "report")
-        return;
+        return processReport(args[1]);
 
     else if(commandName == "summary")
         return;
@@ -57,7 +57,7 @@ string StompProtocol::sendLogin(string host, string port, string username, strin
     StompFrame frame;
     frame.command = Command::CONNECT;
     frame.headers["accept-version"] = "1.2";
-    frame.headers["host"] = " stomp.cs.bgu.ac.il";
+    frame.headers["host"] = "stomp.cs.bgu.ac.il";
     frame.headers["login"] = username;
     frame.headers["passcode"] = password;
     frame.body = "";
@@ -71,6 +71,7 @@ string StompProtocol::sendLogout() {
     frame.command = Command::DISCONNECT;
     frame.headers["receipt"] = receiptIdCounter;
     receiptIdCounter++;
+    loggedIn = false;
     return frameToString(frame);
     
 }
@@ -125,8 +126,8 @@ string StompProtocol::handleReceipt() {
     // TODO: Implement logic
 }
 
-std::string StompProtocol::frameToString(const StompFrame& frame) {
-    std::stringstream ss;
+string StompProtocol::frameToString(const StompFrame& frame) {
+    stringstream ss;
     
     ss << commandToString(frame.command) << "\n"; 
 
@@ -155,7 +156,7 @@ StompFrame::Command StompProtocol::stringToCommand(const std::string& cmd) {
     return Command::UNKNOWN;
 }
 
-std::string StompProtocol::commandToString(StompFrame::Command cmd) {
+string StompProtocol::commandToString(StompFrame::Command cmd) {
     switch (cmd) {
         case Command::CONNECT:     return "CONNECT";
         case Command::CONNECTED:   return "CONNECTED";
@@ -178,4 +179,11 @@ vector<string> StompProtocol::split(const string &s, char delimiter) {
         tokens.push_back(token);
     }
     return tokens;
+}
+
+vector<string> StompProtocol::processReport(string path){
+    names_and_events events = parseEventsFile(path);
+    map<string, vector<Event>> userEvents;
+    vector<Event> fileEvents = events.events;
+
 }
