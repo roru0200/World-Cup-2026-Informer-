@@ -22,8 +22,8 @@ void Game::addEvent(const Event& event) {
 
 }
 
-vector<Event> Game::getAllSortedEvents() const {
-    return vector<Event>();
+vector<Event> Game::getEvents() const {
+    return events;
 }
 
 const map<string, string>& Game::getGeneralStats() const {
