@@ -57,6 +57,7 @@ private:
     //helper functions
     vector<string> split(const string &s, char delimiter);
     string frameToString(const StompFrame& frame);
+    StompFrame stringToFrame(const string& message);
     
     //command converters
     static StompFrame::Command stringToCommand(const string& cmd);
@@ -71,18 +72,18 @@ private:
     vector<string> processReport(string path);
 
     //frame handlers
-	string handleReceipt(StompFrame& frame);
-    string handleMessage(StompFrame& frame);
-    string handleError(StompFrame& frame);
-    string handleSummery();
+	bool handleReceipt(StompFrame& frame);
+    bool handleMessage(StompFrame& frame);
+    bool handleError(StompFrame& frame);
+    bool handleSummery();
     
 
 public:
 	StompProtocol();
 
     //proccessing functions
-	string processKeyboardMessage(string message);
-	string processSocketMessage(string message);
+	vector<string> processKeyboardMessage(string message);
+	bool processSocketMessage(string message);
 
     //login functions
     void setLoggedIn(bool logged);

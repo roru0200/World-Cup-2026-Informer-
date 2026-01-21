@@ -57,8 +57,18 @@ vector<string> StompProtocol::processKeyboardMessage(string message) {
     return output_frames;
 }
 
-string StompProtocol::processSocketMessage(string message) {
-    StompFrame frame = str(message);
+bool StompProtocol::processSocketMessage(string message) {
+    StompFrame frame = stringToFrame(message);
+    switch (frame.command) {
+        case Command::RECEIPT:
+            return handleReceipt(frame);
+        case Command::MESSAGE:
+            return handleMessage(frame);
+        case Command::ERROR:
+            return handleError(frame);
+        default:
+            return false;
+    }
 
     
 }
@@ -134,12 +144,15 @@ string StompProtocol::sendSend(string destination, string message) {
     // TODO: Implement logic
 }
 
-void StompProtocol::handleReceipt(StompFrame& frame) {
+bool StompProtocol::handleReceipt(StompFrame& frame) {
     string receiptMessage = frame.headers["receipt"];
     cout << receiptMessage << endl;
     if (receiptMessage.compare("USER DISCONNECTED"))
         setLoggedIn(false);
+    return true;
 }
+
+bool StompProtocol::handleError(StompFrame& frame) {
 
 string StompProtocol::frameToString(const StompFrame& frame) {
     stringstream ss;
@@ -174,14 +187,19 @@ StompFrame StompProtocol::stringToFrame(const string& message){
             break; 
         }
 
-        string key = message.substr(currentChar, endHeaderName - currentChar);
-        
+        string key = message.substr(currentChar, endHeaderName - currentChar);       
         string value = message.substr(endHeaderName + 1, endHeaderLine - (endHeaderName + 1));
-        
         frame.headers[key] = value;
 
         currentChar = endHeaderLine + 1;
     }
+    if (currentChar < len && message[currentChar] == '\n') currentChar++;//skipping the empty line between headers and body
+
+    if (currentChar < len) {
+        frame.body = message.substr(currentChar);
+    }
+
+    return frame;
 
     
 }
