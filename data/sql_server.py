@@ -11,10 +11,21 @@ the methods below.
 import socket
 import sys
 import threading
+import sqlite3
+import atexit
 
 
 SERVER_NAME = "STOMP_PYTHON_SQL_SERVER"  # DO NOT CHANGE!
 DB_FILE = "stomp_server.db"              # DO NOT CHANGE!
+
+_conn = sqlite3.connect(DB_FILE, check_same_thread=False) #For cuncurrency
+
+
+def _close_db():
+    _conn.commit()
+    _conn.close()
+
+atexit.register(_close_db)
 
 
 def recv_null_terminated(sock: socket.socket) -> str:
@@ -30,15 +41,76 @@ def recv_null_terminated(sock: socket.socket) -> str:
 
 
 def init_database():
-    pass
+    try:
+        _conn.executescript("" \
+        "CREATE TABLE IF NOT EXISTS users (" \
+        "   username TEXT PRIMARY KEY NOT NULL," \
+        "   password TEXT NOT NULL," \
+        "   registration_date TEXT NOT NULL" \
+        ");" \
+        "" \
+        "CREATE TABLE IF NOT EXISTS login_history (" \
+        "   username TEXT NOT NULL," \
+        "   login_time TEXT NOT NULL," \
+        "   logout_time TEXT," \
+        "   " \
+        "   FOREIGN KEY(username) REFERENCES users(username)" \
+        ");" \
+        "" \
+        "CREATE TABLE IF NOT EXISTS file_tracking (" \
+        "   username TEXT NOT NULL," \
+        "   filename TEXT NOT NULL," \
+        "   upload_time TEXT NOT NULL," \
+        "   game_channel TEXT NOT NULL," \
+        "" \
+        "   FOREIGN KEY(username) REFERENCES users(username)" \
+        ");")
+        _conn.commit()
+        print(f"[{SERVER_NAME}] Database initialized successfully.")
+    except sqlite3.Error as e:
+        print(f"SQL Error occured: {e}")
+        if _conn:
+            _conn.rollback()
+        return "error"
+    except Exception as e:
+        print(f"General Error: {e}")
+        return "error"
 
 
 def execute_sql_command(sql_command: str) -> str:
-    return "done"
+    try:
+        _conn.execute(sql_command)
+        _conn.commit()
+        return "done"
+    except sqlite3.Error as e:
+        print(f"SQL Error occured: {e}")
+        if _conn:
+            _conn.rollback()
+        return "error"
+    except Exception as e:
+        print(f"General Error: {e}")
+        return "error"
 
 
 def execute_sql_query(sql_query: str) -> str:
-    return "done"
+        try:
+            cursor = _conn.cursor()
+            cursor.execute(sql_query)
+            rows = cursor.fetchall()
+            result_str = ""
+            for row in rows:
+                result_str += " ".join(str(item) for item in row) + "\n"
+            
+            return result_str.strip()
+
+        except sqlite3.Error as e:
+            print(f"SQL Error occured: {e}")
+            if _conn:
+                _conn.rollback
+            return "error"
+        except Exception as e:
+            print(f"General Error: {e}")
+            return "error"
 
 
 def handle_client(client_socket: socket.socket, addr):
@@ -53,7 +125,13 @@ def handle_client(client_socket: socket.socket, addr):
             print(f"[{SERVER_NAME}] Received:")
             print(message)
 
-            client_socket.sendall(b"done\0")
+            if(message.strip().startswith("SELECT")):
+                response = execute_sql_query(message)
+            
+            else:
+                response = execute_sql_command(message)
+
+            client_socket.sendall(response.encode("utf-8") + b"\0")
 
     except Exception as e:
         print(f"[{SERVER_NAME}] Error handling client {addr}: {e}")
@@ -66,6 +144,8 @@ def handle_client(client_socket: socket.socket, addr):
 
 
 def start_server(host="127.0.0.1", port=7778):
+    init_database() #databse initialization
+
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 

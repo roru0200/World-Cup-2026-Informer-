@@ -10,9 +10,12 @@ using std::stringstream;
 using std::cout;
 using std::endl;
 
-StompProtocol::StompProtocol(){
-    //placeholder
-}
+StompProtocol::StompProtocol():
+    username(""), 
+    subscriptionIdCounter(0),
+    receiptIdCounter(0),      
+    loggedIn(false)
+{}
 
 vector<string> StompProtocol::processKeyboardMessage(string message) {
     // TODO: Implement logic
@@ -21,7 +24,7 @@ vector<string> StompProtocol::processKeyboardMessage(string message) {
     string commandName = args[0];
     vector<string> output_frames;
     if (commandName == "login") {
-        if (!isLoggedIn){
+        if (!isLoggedIn()){
             string hostPort = args[1];
             string user = args[2];
             string pass = args[3];
@@ -69,6 +72,10 @@ bool StompProtocol::processSocketMessage(string message) {
             return handleMessage(frame);
         case Command::ERROR:
             return handleError(frame);
+        case Command::CONNECTED:
+            loggedIn = true;
+            cout << "Login successful" << endl;
+            return true;
         default:
             return false;
     }
@@ -93,10 +100,9 @@ string StompProtocol::sendLogout() {
     // TODO: Implement logic
     StompFrame frame;
     frame.command = Command::DISCONNECT;
-    frame.headers["receipt"] = receiptIdCounter;
+    frame.headers["receipt"] = std::to_string(receiptIdCounter);
     receipts[receiptIdCounter] = "USER DISCONNECTED";
     receiptIdCounter++;
-    loggedIn = false;
     return frameToString(frame);
 
 }
@@ -110,9 +116,9 @@ string StompProtocol::sendSubscribe(string gameName) {
     { 
         lock_guard<mutex> lock(mtx);
         gameToSubId[gameName] = subscriptionIdCounter;
-        frame.headers["id"] = subscriptionIdCounter;
+        frame.headers["id"] = std::to_string(subscriptionIdCounter);
         subscriptionIdCounter++;
-        frame.headers["receipt"] = receiptIdCounter;
+        frame.headers["receipt"] = std::to_string(receiptIdCounter);
         receipts[receiptIdCounter] = "Joined channel " + gameName;
         receiptIdCounter++;
     }
@@ -130,9 +136,9 @@ string StompProtocol::sendUnsubscribe(string gameName) {
     frame.headers["destination"] = "/" + gameName;
     { 
         lock_guard<mutex> lock(mtx);
-        frame.headers["id"] = gameToSubId[gameName];
+        frame.headers["id"] = std::to_string(gameToSubId[gameName]);
         gameToSubId.erase(gameName);
-        frame.headers["receipt"] = receiptIdCounter;
+        frame.headers["receipt"] = std::to_string(receiptIdCounter);
         receipts[receiptIdCounter] = "Exited channel " + gameName;
         receiptIdCounter++;
     }
@@ -155,9 +161,10 @@ string StompProtocol::sendSend(string destination, string message) {
 }
 
 bool StompProtocol::handleReceipt(StompFrame& frame) {
-    string receiptMessage = frame.headers["receipt"];
-    cout << receiptMessage << endl;
-    if (receiptMessage.compare("USER DISCONNECTED"))
+    string receiptMessage = frame.headers["receipt-id"];
+    int receipt_id = std::stoi(receiptMessage);
+    cout << receipts[receipt_id] << endl;
+    if (receiptMessage == "USER DISCONNECTED")
         setLoggedIn(false);
     return true;
 }
@@ -177,7 +184,7 @@ bool StompProtocol::handleMessage(StompFrame& frame) {
     string body = frame.body;
     Event event(body);
     insetToGameUpdates(gameName,reporter, event);
-
+    return true;
 }
 
 string StompProtocol::frameToString(const StompFrame& frame) {
@@ -281,16 +288,26 @@ vector<string> StompProtocol::processReport(string path){
         insetToGameUpdates(gameName, username, e);
         sends.push_back(sendSend(destinantion, eventBodyConstructor(e)));
     }
+    return sends;   
 }
 
 bool StompProtocol::insetToGameUpdates(string gameName, string reporter, Event e){
     {
         lock_guard<mutex> lock(mtx);
+        if (gameUpdates.find(gameName) == gameUpdates.end() || 
+            gameUpdates[gameName].find(reporter) == gameUpdates[gameName].end()) {
+                size_t delimiter_pos = gameName.find('_');
+                string team_a_name = gameName.substr(0, delimiter_pos);
+                string team_b_name = gameName.substr(delimiter_pos + 1);
+                Game newGame(team_a_name, team_b_name);
+                gameUpdates[gameName][reporter] = newGame;
+        }
         e.set_beforeHalftime(beforeHalftimeFlags[gameName]);
-        gameUpdates[gameName][username].addEvent(e);
+        gameUpdates[gameName][reporter].addEvent(e);
         if(e.get_name() == "halftime")
             beforeHalftimeFlags[gameName] = false;
     }
+    return true;
 }
 
 string StompProtocol::eventBodyConstructor(Event event){

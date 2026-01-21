@@ -19,8 +19,9 @@ private:
 
 
 public:
-    Game(std::string team_a, std::string team_b);
-
+    Game() : team_a_name(""), team_b_name(""){};
+    Game(string team_a, string team_b);
+    
     void addEvent(const Event& event);
 
     vector<Event> getEvents() const;

@@ -26,13 +26,19 @@ int main(int argc, char *argv[]) {
 	while (1){
 		unique_ptr<ConnectionHandler> handler;
 		StompProtocol protocol;
-
+		cout << "Program Started" << endl;
 		//=============================LOGIN LOOP START================================
 		while (!protocol.isLoggedIn()) {
+			cout << "Started login loop" << endl;
 			// get user input
 			const short bufsize = 1024;
 			char buf[bufsize];
 			cin.getline(buf, bufsize);
+
+			if (!cin) {
+                return 0; // יציאה מסודרת מהתוכנית
+            }
+
 			string line(buf);
 
 			// parse user input
@@ -49,7 +55,7 @@ int main(int argc, char *argv[]) {
 				short port = atoi(host_port.substr(colon + 1).c_str());
 
 				handler.reset(new ConnectionHandler(host, port));
-
+				cout << "trying to connect" << endl;
 				if(!handler->connect()){
 					cout << "Could not connect to server" << endl;
 					continue;
@@ -78,15 +84,22 @@ int main(int argc, char *argv[]) {
 			const short bufsize = 1024;
 			char buf[bufsize];
 			cin.getline(buf, bufsize);
+			
+			if (!cin) {
+                return 0; // יציאה מסודרת מהתוכנית
+            }
+
 			string line(buf);
 
 			if (!protocol.isLoggedIn()) break;
 
 			if (!line.empty()){
 				vector<string> frames_vector = protocol.processKeyboardMessage(line);
-				for (const string& frame : frames_vector)
+				for (const string& frame : frames_vector){
+					cout << frame << endl;
 					if (!frame.empty()) 
 						handler->sendFrameAscii(frame, '\0');
+				}
 			}
 
 			//gracfully handle logout, to not hang waiting for keyboard input 
