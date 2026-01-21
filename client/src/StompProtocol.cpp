@@ -142,6 +142,13 @@ string StompProtocol::sendUnsubscribe(string gameName) {
 
 string StompProtocol::sendSend(string destination, string message) {
     // TODO: Implement logic
+    StompFrame frame;
+    frame.command = Command::SEND;
+    frame.headers["destination"] = "/" + destination;
+    frame.body = message;
+
+    return frameToString(frame);
+
 }
 
 bool StompProtocol::handleReceipt(StompFrame& frame) {
@@ -152,7 +159,7 @@ bool StompProtocol::handleReceipt(StompFrame& frame) {
     return true;
 }
 
-bool StompProtocol::handleError(StompFrame& frame) {
+bool StompProtocol::handleError(StompFrame& frame) {}
 
 string StompProtocol::frameToString(const StompFrame& frame) {
     stringstream ss;
@@ -193,7 +200,9 @@ StompFrame StompProtocol::stringToFrame(const string& message){
 
         currentChar = endHeaderLine + 1;
     }
-    if (currentChar < len && message[currentChar] == '\n') currentChar++;//skipping the empty line between headers and body
+    if (currentChar < len && message[currentChar] == '\n'){
+        currentChar++;//skipping the empty line between headers and body
+    }
 
     if (currentChar < len) {
         frame.body = message.substr(currentChar);
@@ -245,7 +254,64 @@ vector<string> StompProtocol::split(const string &s, char delimiter) {
 
 vector<string> StompProtocol::processReport(string path){
     names_and_events events = parseEventsFile(path);
-    map<string, vector<Event>> userEvents;
-    vector<Event> fileEvents = events.events;
+    vector<Event> newEvents = events.events;
+    string gameName = events.team_a_name + "_" + events.team_b_name;
+    string destinantion = "/" + gameName;
+    vector<string> sends;
+    for(Event e : newEvents){
+        insetToGameUpdates(gameName, username, e);
+        sends.push_back(sendSend(destinantion, eventBodyConstructor(e)));
+    }
+}
+
+bool StompProtocol::insetToGameUpdates(string gameName, string username, Event e){
+    {
+        lock_guard<mutex> lock(mtx);
+        e.set_beforeHalftime(beforeHalftimeFlags[gameName]);
+        gameUpdates[gameName][username].push_back(e);
+        std::sort(gameUpdates[gameName][username].begin(), gameUpdates[gameName][username].end());
+        if(e.get_name() == "halftime")
+            beforeHalftimeFlags[gameName] = false;
+    }
+}
+
+string StompProtocol::eventBodyConstructor(Event event){
+    string body = "";
+
+    // adding body headers
+    body += "user: " + username + "\n";
+    body += "team a: " + event.get_team_a_name() + "\n";
+    body += "team b: " + event.get_team_b_name() + "\n";
+    body += "event name: " + event.get_name() + "\n";
+    
+    // adding time
+    body += "time: " + std::to_string(event.get_time()) + "\n";
+
+    // adding general game updates, going over the pairs [updateName][value]
+    body += "general game updates:\n";
+    for (const auto& pair : event.get_game_updates()) {
+        body += "\t" + pair.first + ": " + pair.second + "\n";
+    }
+
+    // adding team A updates, going over the pairs [updateName][value]
+    body += "team a updates:\n";
+    for (const auto& pair : event.get_team_a_updates()) {
+        body += "\t" + pair.first + ": " + pair.second + "\n";
+    }
+
+    // adding team B updates, going over the pairs [updateName][value]
+    body += "team b updates:\n";
+    for (const auto& pair : event.get_team_b_updates()) {
+        body += "\t" + pair.first + ": " + pair.second + "\n";
+    }
+
+    // adding "discription" XD
+    body += "description:\n";
+    body += event.get_discription(); 
+    
+    return body;
+}
+
+void StompProtocol::summary(string gameName, string userToSummerize, string path){
 
 }
