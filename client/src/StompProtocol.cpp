@@ -159,7 +159,23 @@ bool StompProtocol::handleReceipt(StompFrame& frame) {
     return true;
 }
 
-bool StompProtocol::handleError(StompFrame& frame) {}
+bool StompProtocol::handleError(StompFrame& frame) {
+    cout << "Error received from server: \"" << frame.headers["message"] << "\"\n";
+    if (frame.body != "")
+        cout << "error description: " << frame.body << endl;
+    loggedIn = false;
+    return false;
+}
+
+bool StompProtocol::handleMessage(StompFrame& frame) {
+    // TODO: Implement logic
+    string gameName = frame.headers["destination"].substr(1); //removing the leading '/'
+    string reporter = frame.headers["user"];
+    string body = frame.body;
+    Event event(body);
+    insetToGameUpdates(gameName,reporter, event);
+
+}
 
 string StompProtocol::frameToString(const StompFrame& frame) {
     stringstream ss;
