@@ -23,7 +23,7 @@ public:
 
     void addEvent(const Event& event);
 
-    vector<Event> getAllSortedEvents() const;
+    vector<Event> getEvents() const;
 
     const map<string, string>& getGeneralStats() const;
     const map<string, string>& getTeamAStats() const;

@@ -2,6 +2,7 @@
 #include <sstream>
 #include <vector>
 #include <iostream>
+#include <fstream> //for writing to file
 
 using Command = StompFrame::Command;
 using std::vector;
@@ -48,8 +49,10 @@ vector<string> StompProtocol::processKeyboardMessage(string message) {
     else if(commandName == "report")
         output_frames = processReport(args[1]);
 
-    else if(commandName == "summary")
+    else if(commandName == "summary"){
+        summary(args[1], args[2], args[3]);
         output_frames.push_back("");
+    }
 
     else if(commandName == "logout")
         output_frames.push_back(sendLogout());
@@ -280,12 +283,11 @@ vector<string> StompProtocol::processReport(string path){
     }
 }
 
-bool StompProtocol::insetToGameUpdates(string gameName, string username, Event e){
+bool StompProtocol::insetToGameUpdates(string gameName, string reporter, Event e){
     {
         lock_guard<mutex> lock(mtx);
         e.set_beforeHalftime(beforeHalftimeFlags[gameName]);
-        gameUpdates[gameName][username].push_back(e);
-        std::sort(gameUpdates[gameName][username].begin(), gameUpdates[gameName][username].end());
+        gameUpdates[gameName][username].addEvent(e);
         if(e.get_name() == "halftime")
             beforeHalftimeFlags[gameName] = false;
     }
@@ -329,5 +331,75 @@ string StompProtocol::eventBodyConstructor(Event event){
 }
 
 void StompProtocol::summary(string gameName, string userToSummerize, string path){
+    lock_guard<mutex> lock(mtx); //locking for threading
 
+    // find returns index of the gameName, if it doesnt exist, it equlas to the end index
+    if (gameUpdates.find(gameName) == gameUpdates.end() || 
+        gameUpdates[gameName].find(userToSummerize) == gameUpdates[gameName].end()) {
+        cout << "Error: No updates found for user " << userToSummerize << " in game " << gameName << endl;
+        return;
+    }
+
+    // getting the user specific game
+    const Game& game = gameUpdates[gameName][userToSummerize];
+
+    // if file doesnt exist, creates it or overwritting
+    std::ofstream file(path);
+    if (!file.is_open()) {
+        cout << "Error: Could not create or open file: " << path << endl;
+        return;
+    }
+
+    // --- writing to file ---
+
+    // Team A vs Team B Main Header
+    size_t delimiter_pos = gameName.find('_');
+    string team_a_name = gameName.substr(0, delimiter_pos);
+    string team_b_name = gameName.substr(delimiter_pos + 1);
+
+    file << team_a_name << " vs " << team_b_name << "\n";
+    
+    file << "Game stats:\n";
+
+    // General stats
+    // going through pairs of the stats map, a map of stirng is already sorted lexicography
+    file << "General stats:\n";
+    for (const auto& pair : game.getGeneralStats()) {
+        file << pair.first << ": " + pair.second << "\n";
+    }
+
+    // Team A stats
+    file << team_a_name << " stats:\n";
+    for (const auto& pair : game.getTeamAStats()) {
+        file << pair.first << ": " + pair.second << "\n";
+    }
+
+    // Team B stats
+    file << team_b_name << " stats:\n";
+    for (const auto& pair : game.getTeamBStats()) {
+        file << pair.first << ": " + pair.second << "\n";
+    }
+
+    //Game event reports
+    file << "Game event reports:\n";
+
+    //Getting events sorted by time
+    vector<Event> sortedEvents = game.getEvents(); 
+
+    // Adding events to file
+    for (const Event& ev : sortedEvents) {
+        file << std::to_string(ev.get_time()) << " - " << ev.get_name() << ":\n\n";
+        file << ev.get_discription() << "\n\n";
+    }
+
+    file.close();
+    cout << "Summary file created at " << path << endl;
+}
+
+void StompProtocol::setLoggedIn(bool logged){
+    loggedIn = logged;
+}
+
+bool StompProtocol::isLoggedIn(){
+    return loggedIn;
 }

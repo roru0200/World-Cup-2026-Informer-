@@ -3,6 +3,7 @@
 #include "../include/ConnectionHandler.h"
 #include "../include/event.h"
 #include <stdlib.h>
+#include "Game.h"
 
 using std::string;
 using std::map;
@@ -51,9 +52,10 @@ private:
 
     //data structures
     map<string, int> gameToSubId; //map<GameName, SubscriptionID>
-    map<string, map<string, vector<Event>>> gameUpdates; //map<GameName, map<UserName, Event>
+    map<string, map<string, Game>> gameUpdates; //map<GameName, map<UserName, GameObject>
     map<int, string> receipts; //map<ReceiptID, returnMessage>
     map<string, bool> beforeHalftimeFlags ;//map<GameName, beforeHalftimeFlag>
+    
 
     //helper functions
     vector<string> split(const string &s, char delimiter);
