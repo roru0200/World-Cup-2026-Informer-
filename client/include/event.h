@@ -24,22 +24,42 @@ private:
     std::map<std::string, std::string> team_b_updates;
     // description of the event
     std::string description;
+    // is the event before halftime
+    bool beforeHalftime;
+
+    enum ParseState {
+        NONE,
+        GAME_UPDATES,
+        TEAM_A_UPDATES,
+        TEAM_B_UPDATES,
+        DESCRIPTION
+    };
+
+    static std::string trim(const std::string& str);//trim whitespace from both ends of a string
+    static bool isIndented(const std::string& line);//check if a line is indented 
 
 public:
-    Event(std::string name, std::string team_a_name, std::string team_b_name, int time, std::map<std::string, std::string> game_updates, std::map<std::string, std::string> team_a_updates, std::map<std::string, std::string> team_b_updates, std::string discription);
+    Event(std::string name, std::string team_a_name, std::string team_b_name, int time, std::map<std::string, std::string> game_updates, std::map<std::string, std::string> team_a_updates, std::map<std::string, std::string> team_b_updates, std::string description, bool beforeHalftime);
     Event(const std::string & frame_body);
     virtual ~Event();
     const std::string &get_team_a_name() const;
     const std::string &get_team_b_name() const;
     const std::string &get_name() const;
     int get_time() const;
+    bool get_beforeHalftime() const;
+    void set_beforeHalftime(bool beforeHalftime);
     const std::map<std::string, std::string> &get_game_updates() const;
     const std::map<std::string, std::string> &get_team_a_updates() const;
     const std::map<std::string, std::string> &get_team_b_updates() const;
     const std::string &get_discription() const;
+    bool operator<(const Event &other) const {
+        if (this->beforeHalftime != other.beforeHalftime)
+            return this->beforeHalftime;
+        return this->time < other.time;
+    }
 };
 
-// an object that holdstd::map<std::string, std::map<std::string, std::vector<Event>>> gameUpdates_;s the names of the teams and a vector of events, to be returned by the parseEventsFile function
+// an object that holds the names of the teams and a vector of events, to be returned by the parseEventsFile function
 struct names_and_events {
     std::string team_a_name;
     std::string team_b_name;

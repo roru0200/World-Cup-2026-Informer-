@@ -10,10 +10,10 @@ using json = nlohmann::json;
 
 Event::Event(std::string team_a_name, std::string team_b_name, std::string name, int time,
              std::map<std::string, std::string> game_updates, std::map<std::string, std::string> team_a_updates,
-             std::map<std::string, std::string> team_b_updates, std::string discription)
+             std::map<std::string, std::string> team_b_updates, std::string discription, bool beforeHalftime)
     : team_a_name(team_a_name), team_b_name(team_b_name), name(name),
       time(time), game_updates(game_updates), team_a_updates(team_a_updates),
-      team_b_updates(team_b_updates), description(discription)
+      team_b_updates(team_b_updates), description(discription), beforeHalftime(beforeHalftime)
 {
 }
 
@@ -61,8 +61,91 @@ const std::string &Event::get_discription() const
     return this->description;
 }
 
-Event::Event(const std::string &frame_body) : team_a_name(""), team_b_name(""), name(""), time(0), game_updates(), team_a_updates(), team_b_updates(), description("")
+bool Event::get_beforeHalftime() const
 {
+    return this->beforeHalftime;
+}
+void Event::set_beforeHalftime(bool beforeHalftime)
+{
+    this->beforeHalftime = beforeHalftime;
+}
+
+std::string Event::trim(const std::string& str) {
+    size_t first = str.find_first_not_of(" \t\r\n");
+    if (std::string::npos == first) return "";
+    size_t last = str.find_last_not_of(" \t\r\n");
+    return str.substr(first, (last - first + 1));
+}
+
+bool Event::isIndented(const std::string& line) {
+    if (line.empty()) return false;
+    return (line[0] == ' ' || line[0] == '\t');
+}
+
+Event::Event(const std::string &frame_body) : team_a_name(""), team_b_name(""), name(""), time(0), game_updates(), team_a_updates(), team_b_updates(), description(""), beforeHalftime(true)
+{
+    std::stringstream ss(frame_body);
+    std::string line;
+    
+    ParseState currentState = NONE;
+
+    while (std::getline(ss, line)) {
+        bool indented = isIndented(line);
+        std::string trimmedLine = trim(line);
+        
+        if (trimmedLine.empty()) continue;
+
+        // Description Body Handling
+        if (currentState == DESCRIPTION && trimmedLine.find(':') == std::string::npos) {
+            if (!description.empty()) description += "\n";
+            description += trimmedLine;
+            continue;
+        }
+
+        // Key-Value Parsing
+        size_t delimiterPos = trimmedLine.find(':');
+        if (delimiterPos != std::string::npos) {
+            std::string key = trim(trimmedLine.substr(0, delimiterPos));
+            std::string value = trim(trimmedLine.substr(delimiterPos + 1));
+
+            // Section Headers
+            if (key == "general game updates") {
+                currentState = GAME_UPDATES;
+                continue; 
+            } else if (key == "team a updates") {
+                currentState = TEAM_A_UPDATES;
+                continue;
+            } else if (key == "team b updates") {
+                currentState = TEAM_B_UPDATES;
+                continue;
+            } else if (key == "description") {
+                currentState = DESCRIPTION;
+                if (!value.empty()) description = value;
+                continue;
+            }
+
+            // Indented Data
+            if (indented) {
+                if (currentState == GAME_UPDATES) game_updates[key] = value;
+                else if (currentState == TEAM_A_UPDATES) team_a_updates[key] = value;
+                else if (currentState == TEAM_B_UPDATES) team_b_updates[key] = value;
+            }
+            // Top-Level Data
+            else {
+                currentState = NONE; 
+                if (key == "team a") team_a_name = value;
+                else if (key == "team b") team_b_name = value;
+                else if (key == "event name") name = value;
+                else if (key == "time") {
+                    try { time = std::stoi(value); } catch(...) { time = 0; }
+                }
+            }
+        }
+        else if (currentState == DESCRIPTION) {
+             if (!description.empty()) description += "\n";
+             description += trimmedLine;
+        }
+    }
 }
 
 names_and_events parseEventsFile(std::string json_path)
@@ -107,7 +190,7 @@ names_and_events parseEventsFile(std::string json_path)
                 team_b_updates[update.key()] = update.value().dump();
         }
         
-        events.push_back(Event(team_a_name, team_b_name, name, time, game_updates, team_a_updates, team_b_updates, description));
+        events.push_back(Event(team_a_name, team_b_name, name, time, game_updates, team_a_updates, team_b_updates, description, true));//true is a placeholder for beforeHalftime
     }
     names_and_events events_and_names{team_a_name, team_b_name, events};
 
