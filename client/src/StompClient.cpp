@@ -24,19 +24,22 @@ void SocketReaderThread(ConnectionHandler* connectionHandler, StompProtocol& pro
 
 int main(int argc, char *argv[]) {
 	while (1){
+		string currentUser = "";
 		unique_ptr<ConnectionHandler> handler;
 		StompProtocol protocol;
-		cout << "Program Started" << endl;
+		//cout << "Program Started" << endl;
 		//=============================LOGIN LOOP START================================
 		while (!protocol.isLoggedIn()) {
-			cout << "Started login loop" << endl;
+			currentUser = "";
+			//cout << "Started login loop" << endl;
+			cout << "please log in: ";
 			// get user input
 			const short bufsize = 1024;
 			char buf[bufsize];
 			cin.getline(buf, bufsize);
 
 			if (!cin) {
-                return 0; // יציאה מסודרת מהתוכנית
+                return 0;
             }
 
 			string line(buf);
@@ -55,12 +58,13 @@ int main(int argc, char *argv[]) {
 				short port = atoi(host_port.substr(colon + 1).c_str());
 
 				handler.reset(new ConnectionHandler(host, port));
-				cout << "trying to connect" << endl;
+				//cout << "trying to connect" << endl;
 				if(!handler->connect()){
 					cout << "Could not connect to server" << endl;
 					continue;
 				}
 				// socket connected, send login frame
+				line_stream >> currentUser;
 				vector<string> login_frame_vector = protocol.processKeyboardMessage(line);
 				string login_frame = login_frame_vector[0];
 				handler->sendFrameAscii(login_frame, '\0');
@@ -77,8 +81,7 @@ int main(int argc, char *argv[]) {
 		//=============================LOGIN LOOP END=================================
 
 		//login was successful, start socket thread
-		std::thread socketThread(SocketReaderThread, handler.get(), std::ref(protocol));	
-
+		std::thread socketThread(SocketReaderThread, handler.get(), std::ref(protocol));
 		//=============================LOGGED IN LOOP START===========================
 		while (protocol.isLoggedIn()) {
 			const short bufsize = 1024;
@@ -86,7 +89,7 @@ int main(int argc, char *argv[]) {
 			cin.getline(buf, bufsize);
 			
 			if (!cin) {
-                return 0; // יציאה מסודרת מהתוכנית
+                return 0;
             }
 
 			string line(buf);
@@ -96,7 +99,7 @@ int main(int argc, char *argv[]) {
 			if (!line.empty()){
 				vector<string> frames_vector = protocol.processKeyboardMessage(line);
 				for (const string& frame : frames_vector){
-					cout << frame << endl;
+					//cout << frame << endl;
 					if (!frame.empty()) 
 						handler->sendFrameAscii(frame, '\0');
 				}

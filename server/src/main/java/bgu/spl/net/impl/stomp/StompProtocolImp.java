@@ -276,9 +276,9 @@ public class StompProtocolImp implements StompMessagingProtocol<StompFrame> {
             case WRONG_PASSWORD:
                 HashMap<String, String> errorHeaders = new HashMap<>();
                 if(logStatus == LoginStatus.ALREADY_LOGGED_IN)
-                    errorHeaders.put("message", "You are already logged in");
+                    errorHeaders.put("message", "User already logged in");
                 if(logStatus == LoginStatus.CLIENT_ALREADY_CONNECTED)
-                    errorHeaders.put("message", "You are already connected");
+                    errorHeaders.put("message", "This client is already connected");
                 if(logStatus == LoginStatus.WRONG_PASSWORD)
                     errorHeaders.put("message", "Invalid user name or password");
                 

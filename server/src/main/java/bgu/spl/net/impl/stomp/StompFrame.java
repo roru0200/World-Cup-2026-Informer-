@@ -82,8 +82,8 @@ public class StompFrame {
             if (endHeaderName == -1 || endHeader == -1) {
                 break; 
             }
-            String headerName = rawFrame.substring(0, endHeaderName);
-            String headerValue = rawFrame.substring(endHeaderName + 1, endHeader);
+            String headerName = rawFrame.substring(0, endHeaderName).trim();
+            String headerValue = rawFrame.substring(endHeaderName + 1, endHeader).trim();
             headers.put(headerName, headerValue);
             if (endHeader + 1 < rawFrame.length()) {
                 rawFrame = rawFrame.substring(endHeader + 1);

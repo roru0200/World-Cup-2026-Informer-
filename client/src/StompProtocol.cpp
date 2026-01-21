@@ -10,12 +10,18 @@ using std::stringstream;
 using std::cout;
 using std::endl;
 
-StompProtocol::StompProtocol():
-    username(""), 
+StompProtocol::StompProtocol() :
+    username(""),
+    mtx(),
+    loggedIn(false),
     subscriptionIdCounter(0),
-    receiptIdCounter(0),      
-    loggedIn(false)
-{}
+    receiptIdCounter(0),
+    gameToSubId(),
+    gameUpdates(),
+    receipts(),
+    beforeHalftimeFlags(){
+
+    }
 
 vector<string> StompProtocol::processKeyboardMessage(string message) {
     // TODO: Implement logic
@@ -74,7 +80,7 @@ bool StompProtocol::processSocketMessage(string message) {
             return handleError(frame);
         case Command::CONNECTED:
             loggedIn = true;
-            cout << "Login successful" << endl;
+            cout << "User '"<<username <<"' successfully logged in!" << endl;
             return true;
         default:
             return false;
@@ -100,9 +106,11 @@ string StompProtocol::sendLogout() {
     // TODO: Implement logic
     StompFrame frame;
     frame.command = Command::DISCONNECT;
+    std::lock_guard<std::mutex> lock(mtx);
     frame.headers["receipt"] = std::to_string(receiptIdCounter);
     receipts[receiptIdCounter] = "USER DISCONNECTED";
     receiptIdCounter++;
+    cout << "Logging out..." << endl;
     return frameToString(frame);
 
 }
@@ -161,17 +169,18 @@ string StompProtocol::sendSend(string destination, string message) {
 }
 
 bool StompProtocol::handleReceipt(StompFrame& frame) {
-    string receiptMessage = frame.headers["receipt-id"];
-    int receipt_id = std::stoi(receiptMessage);
+    std::lock_guard<std::mutex> lock(mtx);
+    string receipIdString = frame.headers["receipt-id"];
+    int receipt_id = std::stoi(receipIdString);
     cout << receipts[receipt_id] << endl;
-    if (receiptMessage == "USER DISCONNECTED")
+    if (receipts[receipt_id] == "USER DISCONNECTED")
         setLoggedIn(false);
     return true;
 }
 
 bool StompProtocol::handleError(StompFrame& frame) {
     cout << "Error received from server: \"" << frame.headers["message"] << "\"\n";
-    if (frame.body != "")
+    if (frame.body.find_first_not_of('\n') != string::npos)
         cout << "error description: " << frame.body << endl;
     loggedIn = false;
     return false;

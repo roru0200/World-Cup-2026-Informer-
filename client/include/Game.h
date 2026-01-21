@@ -19,7 +19,8 @@ private:
 
 
 public:
-    Game() : team_a_name(""), team_b_name(""){};
+
+    Game() : team_a_name(""), team_b_name(""), events(), general_stats(), team_a_stats(), team_b_stats() {}
     Game(string team_a, string team_b);
     
     void addEvent(const Event& event);

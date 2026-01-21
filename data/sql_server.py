@@ -18,7 +18,9 @@ import atexit
 SERVER_NAME = "STOMP_PYTHON_SQL_SERVER"  # DO NOT CHANGE!
 DB_FILE = "stomp_server.db"              # DO NOT CHANGE!
 
-_conn = sqlite3.connect(DB_FILE, check_same_thread=False) #For cuncurrency
+_conn = sqlite3.connect(DB_FILE, check_same_thread=False)
+db_lock = threading.Lock()
+ #For cuncurrency
 
 
 def _close_db():
@@ -78,39 +80,41 @@ def init_database():
 
 
 def execute_sql_command(sql_command: str) -> str:
-    try:
-        _conn.execute(sql_command)
-        _conn.commit()
-        return "done"
-    except sqlite3.Error as e:
-        print(f"SQL Error occured: {e}")
-        if _conn:
-            _conn.rollback()
-        return "error"
-    except Exception as e:
-        print(f"General Error: {e}")
-        return "error"
-
-
-def execute_sql_query(sql_query: str) -> str:
+    with db_lock:
         try:
-            cursor = _conn.cursor()
-            cursor.execute(sql_query)
-            rows = cursor.fetchall()
-            result_str = ""
-            for row in rows:
-                result_str += " ".join(str(item) for item in row) + "\n"
-            
-            return result_str.strip()
-
+            _conn.execute(sql_command)
+            _conn.commit()
+            return "done"
         except sqlite3.Error as e:
             print(f"SQL Error occured: {e}")
             if _conn:
-                _conn.rollback
+                _conn.rollback()
             return "error"
         except Exception as e:
             print(f"General Error: {e}")
             return "error"
+
+
+def execute_sql_query(sql_query: str) -> str:
+        with db_lock:
+            try:
+                cursor = _conn.cursor()
+                cursor.execute(sql_query)
+                rows = cursor.fetchall()
+                result_str = ""
+                for row in rows:
+                    result_str += " ".join(str(item) for item in row) + "\n"
+                
+                return result_str.strip()
+
+            except sqlite3.Error as e:
+                print(f"SQL Error occured: {e}")
+                if _conn:
+                    _conn.rollback
+                return "error"
+            except Exception as e:
+                print(f"General Error: {e}")
+                return "error"
 
 
 def handle_client(client_socket: socket.socket, addr):

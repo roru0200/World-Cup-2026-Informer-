@@ -1,7 +1,13 @@
 #include "../include/Game.h"
 
-Game::Game(std::string team_a, std::string team_b)
-    : team_a_name(team_a), team_b_name(team_b) {
+Game::Game(std::string team_a, std::string team_b) 
+    : team_a_name(team_a), 
+      team_b_name(team_b), 
+      events(), 
+      general_stats(), 
+      team_a_stats(), 
+      team_b_stats() {
+
 }
 
 void Game::addEvent(const Event& event) {
