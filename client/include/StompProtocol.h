@@ -77,6 +77,10 @@ private:
     bool handleMessage(StompFrame& frame);
     bool handleError(StompFrame& frame);
     bool handleSummery();
+
+    bool insetToGameUpdates(string, string, Event);
+    string eventBodyConstructor(Event);
+    void summary(string, string, string);
     
 
 public:
