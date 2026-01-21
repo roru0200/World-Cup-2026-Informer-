@@ -53,6 +53,7 @@ private:
     map<string, int> gameToSubId; //map<GameName, SubscriptionID>
     map<string, map<string, vector<Event>>> gameUpdates; //map<GameName, map<UserName, Event>
     map<int, string> receipts; //map<ReceiptID, returnMessage>
+    map<string, bool> beforeHalftimeFlags ;//map<GameName, beforeHalftimeFlag>
 
     //helper functions
     vector<string> split(const string &s, char delimiter);
