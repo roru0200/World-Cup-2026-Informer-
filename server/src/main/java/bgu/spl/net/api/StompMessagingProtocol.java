@@ -14,4 +14,5 @@ public interface StompMessagingProtocol<T>  {
      * @return true if the connection should be terminated
      */
     boolean shouldTerminate();
+    void close();
 }

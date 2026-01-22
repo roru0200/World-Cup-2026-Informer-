@@ -187,11 +187,21 @@ bool StompProtocol::handleError(StompFrame& frame) {
 }
 
 bool StompProtocol::handleMessage(StompFrame& frame) {
-    // TODO: Implement logic
+    // extracting body and game name
     string gameName = frame.headers["destination"].substr(1); //removing the leading '/'
-    string reporter = frame.headers["user"];
     string body = frame.body;
+    // creating Event object to add to game updates
     Event event(body);
+    // extracting reporter name from body
+    stringstream ss(body);
+    string firstLine;
+    std::getline(ss, firstLine);
+    size_t colonPos = firstLine.find(':');
+    string reporter = firstLine.substr(colonPos +1);
+    size_t reporter_start = reporter.find_first_not_of(" \t\r\n");
+    size_t reporter_end = reporter.find_last_not_of(" \t\r\n");
+    reporter = reporter.substr(reporter_start, reporter_end - reporter_start + 1);
+
     insetToGameUpdates(gameName,reporter, event);
     return true;
 }
@@ -315,6 +325,9 @@ bool StompProtocol::insetToGameUpdates(string gameName, string reporter, Event e
         lock_guard<mutex> lock(mtx);
         if (gameUpdates.find(gameName) == gameUpdates.end() || 
             gameUpdates[gameName].find(reporter) == gameUpdates[gameName].end()) {
+                if (gameUpdates.find(gameName) == gameUpdates.end())
+                    beforeHalftimeFlags[gameName] = true;
+                
                 size_t delimiter_pos = gameName.find('_');
                 string team_a_name = gameName.substr(0, delimiter_pos);
                 string team_b_name = gameName.substr(delimiter_pos + 1);

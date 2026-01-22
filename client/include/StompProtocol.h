@@ -44,7 +44,7 @@ private:
 
     //logic variables
     mutex mtx;
-    bool loggedIn;
+    std::atomic_bool loggedIn;
 
     //counters
     int subscriptionIdCounter;

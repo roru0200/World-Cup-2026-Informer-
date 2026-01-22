@@ -11,7 +11,6 @@ public class ConnectionsImpl<T> implements Connections<T> {
     private final ConcurrentHashMap<Integer, ConnectionHandler<T>> handlers = new ConcurrentHashMap<>();// Map<connectionId, ConnectionHandler>
     private final ConcurrentHashMap<String, ConcurrentHashMap<Integer, String>> channels = new ConcurrentHashMap<>(); // Map<channel, Map<connectionId, subscriptionId>>
     private final ConcurrentHashMap<Integer, ConcurrentLinkedQueue<String>> userSubscriptions = new ConcurrentHashMap<>(); // Map<connectionId, List<channel>>
-    private final Database db = Database.getInstance();
     
     @Override
     public boolean send(int connectionId, T msg) {
@@ -44,8 +43,6 @@ public class ConnectionsImpl<T> implements Connections<T> {
             channels.get(channel).remove(connectionId);
             }
         }
-        db.logout(connectionId);
-        
     }
 
     // --- פונקציות עזר (לא ב-Interface, אבל הכרחיות לפרוטוקול) ---
@@ -81,13 +78,5 @@ public class ConnectionsImpl<T> implements Connections<T> {
     }
     public ConcurrentHashMap<Integer, String> getSubscribers(String channel) {
         return channels.get(channel);
-    }
-
-    public LoginStatus login(int connectionId, String username, String password){
-        return db.login(connectionId, username, password);
-    }
-
-    public void addFile(String user_name, String file_name, String game_channel){
-        db.trackFileUpload(file_name, file_name, file_name);
     }
 }

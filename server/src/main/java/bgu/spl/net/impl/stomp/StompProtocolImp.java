@@ -4,11 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.xml.crypto.Data;
+
 import bgu.spl.net.api.StompMessagingProtocol;
 import bgu.spl.net.srv.Connections;
 import bgu.spl.net.srv.ConnectionsImpl;
 import bgu.spl.net.impl.data.LoginStatus;
 import bgu.spl.net.impl.stomp.*;
+import bgu.spl.net.impl.data.Database;
 
 public class StompProtocolImp implements StompMessagingProtocol<StompFrame> {
 
@@ -19,6 +22,7 @@ public class StompProtocolImp implements StompMessagingProtocol<StompFrame> {
     private HashMap<String, String> subscriptionIds;
     private String recieptId = null;
     private int msgCounter;
+    private Database db = Database.getInstance();
 
     @Override
     public void start(int connectionId, Connections<StompFrame> connections){
@@ -141,8 +145,7 @@ public class StompProtocolImp implements StompMessagingProtocol<StompFrame> {
             String firstLine = message.getBody().split("\n")[0];
             String userName = firstLine.split(":")[1].trim();
             if(fileName != null)
-                connections.addFile(userName, fileName, destination.substring(1));
-                
+                db.trackFileUpload(userName, fileName, destination.substring(1));
             
             if (subscribers != null) {
                 for (Map.Entry<Integer, String> entry : subscribers.entrySet()) {
@@ -228,17 +231,15 @@ public class StompProtocolImp implements StompMessagingProtocol<StompFrame> {
         if (recieptId != null) {
             sendReceipt(recieptId);
         }
-        
-        connections.disconnect(myId);
-
         recieptId = null;
-        isLoggedIn = false;
-        shouldTerminate = true;
+        close();
     }
 
     private void processError(HashMap<String, String> headers, String body){
-        if(recieptId != null)
+        if(recieptId != null){
             headers.put("receipt-id", recieptId);
+            recieptId = null;
+        }
 
         StompFrame error = new StompFrame(StompFrame.SER_ERROR, headers, body);
         connections.send(myId, error);
@@ -277,7 +278,7 @@ public class StompProtocolImp implements StompMessagingProtocol<StompFrame> {
     }
 
     private boolean login(String username, String password) {//placeholder
-        LoginStatus logStatus = connections.login(myId, username, password);
+        LoginStatus logStatus = db.login(myId, username, password);
         switch(logStatus){
             case ALREADY_LOGGED_IN:
             case CLIENT_ALREADY_CONNECTED:
@@ -317,6 +318,15 @@ public class StompProtocolImp implements StompMessagingProtocol<StompFrame> {
 	@Override
     public boolean shouldTerminate(){
         return shouldTerminate;
-    };
-    
+    }
+
+    @Override
+    public void close(){   
+        if (isLoggedIn){   
+            connections.disconnect(myId);
+            isLoggedIn = false;
+            shouldTerminate = true;
+            db.logout(myId);
+        }
+    }
 }

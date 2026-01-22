@@ -110,12 +110,16 @@ public class Reactor<T> implements Server<T> {
                 smp,
                 clientChan,
                 this);
-        clientChan.register(selector, SelectionKey.OP_READ, handler);
+        clientChan.register(selector, 0, handler);
 
         int tmpId = idCounter.getAndIncrement();
         connections.addConnection(tmpId, handler);
 
-        pool.submit(handler, () -> { smp.start(tmpId, connections); });
+        pool.submit(handler, () -> {
+                    smp.start(tmpId, connections);
+                    updateInterestedOps(clientChan, SelectionKey.OP_READ);
+                    }
+                );
         
     }
 
