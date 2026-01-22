@@ -1,0 +1,5 @@
+login 127.0.0.1:7777 menny 1234
+join Germany_Japan
+report /workspaces/World-Cup-2026-Informer-/client/data/events1.json
+summary Germany_Japan menny /workspaces/World-Cup-2026-Informer-/client/data/summary.txt
+logout

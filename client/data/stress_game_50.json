@@ -1,0 +1,495 @@
+{
+    "team a": "StressTeamA",
+    "team b": "StressTeamB",
+    "events": [
+        {
+            "event name": "kickoff",
+            "time": 0,
+            "general game updates": {
+                "active": "true",
+                "before halftime": "true"
+            },
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Game started."
+        },
+        {
+            "event name": "Possession Update 1",
+            "time": 79,
+            "general game updates": {},
+            "team a updates": {
+                "possession": "64%"
+            },
+            "team b updates": {
+                "possession": "36%"
+            },
+            "description": "Description for event 1 - Possession Update"
+        },
+        {
+            "event name": "Foul 2",
+            "time": 175,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Description for event 2 - Foul"
+        },
+        {
+            "event name": "Foul 3",
+            "time": 372,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Description for event 3 - Foul"
+        },
+        {
+            "event name": "Goal 4",
+            "time": 588,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {
+                "goals": "1"
+            },
+            "description": "Description for event 4 - Goal"
+        },
+        {
+            "event name": "Yellow Card 5",
+            "time": 856,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Description for event 5 - Yellow Card"
+        },
+        {
+            "event name": "Possession Update 6",
+            "time": 979,
+            "general game updates": {},
+            "team a updates": {
+                "possession": "50%"
+            },
+            "team b updates": {
+                "possession": "50%"
+            },
+            "description": "Description for event 6 - Possession Update"
+        },
+        {
+            "event name": "Yellow Card 7",
+            "time": 1079,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Description for event 7 - Yellow Card"
+        },
+        {
+            "event name": "Possession Update 8",
+            "time": 1199,
+            "general game updates": {},
+            "team a updates": {
+                "possession": "44%"
+            },
+            "team b updates": {
+                "possession": "56%"
+            },
+            "description": "Description for event 8 - Possession Update"
+        },
+        {
+            "event name": "Yellow Card 9",
+            "time": 1395,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Description for event 9 - Yellow Card"
+        },
+        {
+            "event name": "Possession Update 10",
+            "time": 1494,
+            "general game updates": {},
+            "team a updates": {
+                "possession": "42%"
+            },
+            "team b updates": {
+                "possession": "58%"
+            },
+            "description": "Description for event 10 - Possession Update"
+        },
+        {
+            "event name": "Foul 11",
+            "time": 1751,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Description for event 11 - Foul"
+        },
+        {
+            "event name": "Goal 12",
+            "time": 1814,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {
+                "goals": "2"
+            },
+            "description": "Description for event 12 - Goal"
+        },
+        {
+            "event name": "Goal 13",
+            "time": 2072,
+            "general game updates": {},
+            "team a updates": {
+                "goals": "1"
+            },
+            "team b updates": {},
+            "description": "Description for event 13 - Goal"
+        },
+        {
+            "event name": "Foul 14",
+            "time": 2279,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Description for event 14 - Foul"
+        },
+        {
+            "event name": "Goal 15",
+            "time": 2427,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {
+                "goals": "3"
+            },
+            "description": "Description for event 15 - Goal"
+        },
+        {
+            "event name": "Goal 16",
+            "time": 2633,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {
+                "goals": "4"
+            },
+            "description": "Description for event 16 - Goal"
+        },
+        {
+            "event name": "Goal 17",
+            "time": 2855,
+            "general game updates": {},
+            "team a updates": {
+                "goals": "2"
+            },
+            "team b updates": {},
+            "description": "Description for event 17 - Goal"
+        },
+        {
+            "event name": "Goal 18",
+            "time": 3042,
+            "general game updates": {},
+            "team a updates": {
+                "goals": "3"
+            },
+            "team b updates": {},
+            "description": "Description for event 18 - Goal"
+        },
+        {
+            "event name": "Yellow Card 19",
+            "time": 3242,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Description for event 19 - Yellow Card"
+        },
+        {
+            "event name": "Foul 20",
+            "time": 3426,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Description for event 20 - Foul"
+        },
+        {
+            "event name": "Yellow Card 21",
+            "time": 3570,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Description for event 21 - Yellow Card"
+        },
+        {
+            "event name": "Possession Update 22",
+            "time": 3630,
+            "general game updates": {},
+            "team a updates": {
+                "possession": "34%"
+            },
+            "team b updates": {
+                "possession": "66%"
+            },
+            "description": "Description for event 22 - Possession Update"
+        },
+        {
+            "event name": "Goal 23",
+            "time": 3882,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {
+                "goals": "5"
+            },
+            "description": "Description for event 23 - Goal"
+        },
+        {
+            "event name": "Foul 24",
+            "time": 4017,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Description for event 24 - Foul"
+        },
+        {
+            "event name": "halftime",
+            "time": 4300,
+            "general game updates": {
+                "before halftime": "false"
+            },
+            "team a updates": {
+                "possession": "33%"
+            },
+            "team b updates": {
+                "possession": "67%"
+            },
+            "description": "Description for event 25 - Possession Update"
+        },
+        {
+            "event name": "Yellow Card 26",
+            "time": 4500,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Description for event 26 - Yellow Card"
+        },
+        {
+            "event name": "Yellow Card 27",
+            "time": 4562,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Description for event 27 - Yellow Card"
+        },
+        {
+            "event name": "Foul 28",
+            "time": 4859,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Description for event 28 - Foul"
+        },
+        {
+            "event name": "Possession Update 29",
+            "time": 5111,
+            "general game updates": {},
+            "team a updates": {
+                "possession": "38%"
+            },
+            "team b updates": {
+                "possession": "62%"
+            },
+            "description": "Description for event 29 - Possession Update"
+        },
+        {
+            "event name": "Foul 30",
+            "time": 5194,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Description for event 30 - Foul"
+        },
+        {
+            "event name": "Foul 31",
+            "time": 5403,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Description for event 31 - Foul"
+        },
+        {
+            "event name": "Possession Update 32",
+            "time": 5637,
+            "general game updates": {},
+            "team a updates": {
+                "possession": "32%"
+            },
+            "team b updates": {
+                "possession": "68%"
+            },
+            "description": "Description for event 32 - Possession Update"
+        },
+        {
+            "event name": "Goal 33",
+            "time": 5733,
+            "general game updates": {},
+            "team a updates": {
+                "goals": "4"
+            },
+            "team b updates": {},
+            "description": "Description for event 33 - Goal"
+        },
+        {
+            "event name": "Goal 34",
+            "time": 5991,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {
+                "goals": "6"
+            },
+            "description": "Description for event 34 - Goal"
+        },
+        {
+            "event name": "Possession Update 35",
+            "time": 6079,
+            "general game updates": {},
+            "team a updates": {
+                "possession": "44%"
+            },
+            "team b updates": {
+                "possession": "56%"
+            },
+            "description": "Description for event 35 - Possession Update"
+        },
+        {
+            "event name": "Foul 36",
+            "time": 6322,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Description for event 36 - Foul"
+        },
+        {
+            "event name": "Yellow Card 37",
+            "time": 6502,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Description for event 37 - Yellow Card"
+        },
+        {
+            "event name": "Foul 38",
+            "time": 6673,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Description for event 38 - Foul"
+        },
+        {
+            "event name": "Foul 39",
+            "time": 6808,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Description for event 39 - Foul"
+        },
+        {
+            "event name": "Yellow Card 40",
+            "time": 6935,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Description for event 40 - Yellow Card"
+        },
+        {
+            "event name": "Yellow Card 41",
+            "time": 7075,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Description for event 41 - Yellow Card"
+        },
+        {
+            "event name": "Possession Update 42",
+            "time": 7287,
+            "general game updates": {},
+            "team a updates": {
+                "possession": "67%"
+            },
+            "team b updates": {
+                "possession": "33%"
+            },
+            "description": "Description for event 42 - Possession Update"
+        },
+        {
+            "event name": "Goal 43",
+            "time": 7551,
+            "general game updates": {},
+            "team a updates": {
+                "goals": "5"
+            },
+            "team b updates": {},
+            "description": "Description for event 43 - Goal"
+        },
+        {
+            "event name": "Goal 44",
+            "time": 7801,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {
+                "goals": "7"
+            },
+            "description": "Description for event 44 - Goal"
+        },
+        {
+            "event name": "Yellow Card 45",
+            "time": 7866,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Description for event 45 - Yellow Card"
+        },
+        {
+            "event name": "Goal 46",
+            "time": 7976,
+            "general game updates": {},
+            "team a updates": {
+                "goals": "6"
+            },
+            "team b updates": {},
+            "description": "Description for event 46 - Goal"
+        },
+        {
+            "event name": "Yellow Card 47",
+            "time": 8150,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Description for event 47 - Yellow Card"
+        },
+        {
+            "event name": "Possession Update 48",
+            "time": 8350,
+            "general game updates": {},
+            "team a updates": {
+                "possession": "33%"
+            },
+            "team b updates": {
+                "possession": "67%"
+            },
+            "description": "Description for event 48 - Possession Update"
+        },
+        {
+            "event name": "Possession Update 49",
+            "time": 8579,
+            "general game updates": {},
+            "team a updates": {
+                "possession": "70%"
+            },
+            "team b updates": {
+                "possession": "30%"
+            },
+            "description": "Description for event 49 - Possession Update"
+        },
+        {
+            "event name": "final whistle",
+            "time": 8639,
+            "general game updates": {
+                "active": "false"
+            },
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Game Over."
+        }
+    ]
+}

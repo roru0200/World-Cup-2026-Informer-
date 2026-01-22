@@ -1,0 +1,515 @@
+Italy vs France
+Game stats:
+General stats:
+active: false
+before halftime: true
+Italy stats:
+goals: 11
+France stats:
+goals: 18
+Game event reports:
+0 - kickoff:
+
+Game Start
+
+
+97 - Goal 1:
+
+Desc 1
+
+
+107 - Foul 2:
+
+Desc 2
+
+
+160 - Offside 3:
+
+Desc 3
+
+
+184 - Goal 4:
+
+Desc 4
+
+
+247 - Foul 5:
+
+Desc 5
+
+
+313 - Offside 6:
+
+Desc 6
+
+
+339 - Offside 7:
+
+Desc 7
+
+
+428 - Offside 8:
+
+Desc 8
+
+
+495 - Foul 9:
+
+Desc 9
+
+
+537 - Goal 10:
+
+Desc 10
+
+
+585 - Foul 11:
+
+Desc 11
+
+
+657 - Foul 12:
+
+Desc 12
+
+
+667 - Offside 13:
+
+Desc 13
+
+
+750 - Offside 14:
+
+Desc 14
+
+
+842 - Goal 15:
+
+Desc 15
+
+
+897 - Offside 16:
+
+Desc 16
+
+
+980 - Offside 17:
+
+Desc 17
+
+
+1074 - Offside 18:
+
+Desc 18
+
+
+1136 - Foul 19:
+
+Desc 19
+
+
+1146 - Goal 20:
+
+Desc 20
+
+
+1207 - Offside 21:
+
+Desc 21
+
+
+1242 - Goal 22:
+
+Desc 22
+
+
+1321 - Offside 23:
+
+Desc 23
+
+
+1355 - Foul 24:
+
+Desc 24
+
+
+1426 - Foul 25:
+
+Desc 25
+
+
+1482 - Foul 26:
+
+Desc 26
+
+
+1554 - Foul 27:
+
+Desc 27
+
+
+1607 - Goal 28:
+
+Desc 28
+
+
+1632 - Offside 29:
+
+Desc 29
+
+
+1708 - Offside 30:
+
+Desc 30
+
+
+1736 - Offside 31:
+
+Desc 31
+
+
+1775 - Goal 32:
+
+Desc 32
+
+
+1791 - Offside 33:
+
+Desc 33
+
+
+1822 - Goal 34:
+
+Desc 34
+
+
+1840 - Offside 35:
+
+Desc 35
+
+
+1876 - Goal 36:
+
+Desc 36
+
+
+1914 - Goal 37:
+
+Desc 37
+
+
+1989 - Foul 38:
+
+Desc 38
+
+
+2048 - Foul 39:
+
+Desc 39
+
+
+2106 - Foul 40:
+
+Desc 40
+
+
+2158 - Offside 41:
+
+Desc 41
+
+
+2210 - Goal 42:
+
+Desc 42
+
+
+2250 - Offside 43:
+
+Desc 43
+
+
+2285 - Goal 44:
+
+Desc 44
+
+
+2336 - Goal 45:
+
+Desc 45
+
+
+2382 - Offside 46:
+
+Desc 46
+
+
+2394 - Foul 47:
+
+Desc 47
+
+
+2417 - Foul 48:
+
+Desc 48
+
+
+2517 - Offside 49:
+
+Desc 49
+
+
+2578 - Offside 50:
+
+Desc 50
+
+
+2590 - Foul 51:
+
+Desc 51
+
+
+2662 - Goal 52:
+
+Desc 52
+
+
+2699 - Foul 53:
+
+Desc 53
+
+
+2714 - Goal 54:
+
+Desc 54
+
+
+2773 - Offside 55:
+
+Desc 55
+
+
+2792 - Foul 56:
+
+Desc 56
+
+
+2862 - Offside 57:
+
+Desc 57
+
+
+2934 - Foul 58:
+
+Desc 58
+
+
+2979 - Foul 59:
+
+Desc 59
+
+
+3068 - Goal 60:
+
+Desc 60
+
+
+3120 - Foul 61:
+
+Desc 61
+
+
+3186 - Foul 62:
+
+Desc 62
+
+
+3226 - Goal 63:
+
+Desc 63
+
+
+3265 - Foul 64:
+
+Desc 64
+
+
+3322 - Foul 65:
+
+Desc 65
+
+
+3335 - Offside 66:
+
+Desc 66
+
+
+3385 - Goal 67:
+
+Desc 67
+
+
+3445 - Foul 68:
+
+Desc 68
+
+
+3492 - Offside 69:
+
+Desc 69
+
+
+3508 - Foul 70:
+
+Desc 70
+
+
+3560 - Foul 71:
+
+Desc 71
+
+
+3580 - Offside 72:
+
+Desc 72
+
+
+3633 - Goal 73:
+
+Desc 73
+
+
+3673 - Offside 74:
+
+Desc 74
+
+
+3754 - Offside 75:
+
+Desc 75
+
+
+3810 - Offside 76:
+
+Desc 76
+
+
+3889 - Offside 77:
+
+Desc 77
+
+
+3914 - Goal 78:
+
+Desc 78
+
+
+3994 - Goal 79:
+
+Desc 79
+
+
+4055 - Offside 80:
+
+Desc 80
+
+
+4146 - Offside 81:
+
+Desc 81
+
+
+4186 - Foul 82:
+
+Desc 82
+
+
+4286 - Offside 83:
+
+Desc 83
+
+
+4349 - Goal 84:
+
+Desc 84
+
+
+4448 - Offside 85:
+
+Desc 85
+
+
+4508 - Foul 86:
+
+Desc 86
+
+
+4536 - Goal 87:
+
+Desc 87
+
+
+4610 - Goal 88:
+
+Desc 88
+
+
+4655 - Foul 89:
+
+Desc 89
+
+
+4713 - Goal 90:
+
+Desc 90
+
+
+4797 - Offside 91:
+
+Desc 91
+
+
+4836 - Offside 92:
+
+Desc 92
+
+
+4863 - Offside 93:
+
+Desc 93
+
+
+4941 - Foul 94:
+
+Desc 94
+
+
+4958 - Goal 95:
+
+Desc 95
+
+
+5005 - Goal 96:
+
+Desc 96
+
+
+5100 - Offside 97:
+
+Desc 97
+
+
+5163 - Offside 98:
+
+Desc 98
+
+
+5190 - Goal 99:
+
+Desc 99
+
+
+5250 - final whistle:
+
+Game Over
+
+

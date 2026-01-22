@@ -1,0 +1,515 @@
+Germany vs Spain
+Game stats:
+General stats:
+active: false
+before halftime: true
+Germany stats:
+goals: 18
+Spain stats:
+goals: 10
+Game event reports:
+0 - kickoff:
+
+Game Start
+
+
+23 - Goal 1:
+
+Desc 1
+
+
+64 - Goal 2:
+
+Desc 2
+
+
+110 - Goal 3:
+
+Desc 3
+
+
+178 - Offside 4:
+
+Desc 4
+
+
+225 - Offside 5:
+
+Desc 5
+
+
+315 - Goal 6:
+
+Desc 6
+
+
+413 - Foul 7:
+
+Desc 7
+
+
+453 - Goal 8:
+
+Desc 8
+
+
+531 - Offside 9:
+
+Desc 9
+
+
+554 - Goal 10:
+
+Desc 10
+
+
+603 - Offside 11:
+
+Desc 11
+
+
+645 - Offside 12:
+
+Desc 12
+
+
+710 - Foul 13:
+
+Desc 13
+
+
+744 - Foul 14:
+
+Desc 14
+
+
+792 - Goal 15:
+
+Desc 15
+
+
+804 - Offside 16:
+
+Desc 16
+
+
+871 - Offside 17:
+
+Desc 17
+
+
+899 - Offside 18:
+
+Desc 18
+
+
+968 - Goal 19:
+
+Desc 19
+
+
+980 - Offside 20:
+
+Desc 20
+
+
+1077 - Foul 21:
+
+Desc 21
+
+
+1105 - Offside 22:
+
+Desc 22
+
+
+1121 - Offside 23:
+
+Desc 23
+
+
+1158 - Foul 24:
+
+Desc 24
+
+
+1182 - Goal 25:
+
+Desc 25
+
+
+1255 - Foul 26:
+
+Desc 26
+
+
+1302 - Goal 27:
+
+Desc 27
+
+
+1371 - Foul 28:
+
+Desc 28
+
+
+1413 - Offside 29:
+
+Desc 29
+
+
+1480 - Offside 30:
+
+Desc 30
+
+
+1564 - Foul 31:
+
+Desc 31
+
+
+1575 - Foul 32:
+
+Desc 32
+
+
+1663 - Offside 33:
+
+Desc 33
+
+
+1759 - Foul 34:
+
+Desc 34
+
+
+1794 - Foul 35:
+
+Desc 35
+
+
+1829 - Foul 36:
+
+Desc 36
+
+
+1887 - Goal 37:
+
+Desc 37
+
+
+1984 - Goal 38:
+
+Desc 38
+
+
+2084 - Goal 39:
+
+Desc 39
+
+
+2124 - Offside 40:
+
+Desc 40
+
+
+2201 - Offside 41:
+
+Desc 41
+
+
+2224 - Goal 42:
+
+Desc 42
+
+
+2320 - Offside 43:
+
+Desc 43
+
+
+2353 - Foul 44:
+
+Desc 44
+
+
+2436 - Offside 45:
+
+Desc 45
+
+
+2503 - Foul 46:
+
+Desc 46
+
+
+2541 - Foul 47:
+
+Desc 47
+
+
+2626 - Foul 48:
+
+Desc 48
+
+
+2703 - Offside 49:
+
+Desc 49
+
+
+2785 - Foul 50:
+
+Desc 50
+
+
+2833 - Offside 51:
+
+Desc 51
+
+
+2918 - Foul 52:
+
+Desc 52
+
+
+2967 - Offside 53:
+
+Desc 53
+
+
+3028 - Foul 54:
+
+Desc 54
+
+
+3105 - Foul 55:
+
+Desc 55
+
+
+3152 - Foul 56:
+
+Desc 56
+
+
+3207 - Foul 57:
+
+Desc 57
+
+
+3289 - Offside 58:
+
+Desc 58
+
+
+3329 - Foul 59:
+
+Desc 59
+
+
+3367 - Goal 60:
+
+Desc 60
+
+
+3394 - Goal 61:
+
+Desc 61
+
+
+3447 - Goal 62:
+
+Desc 62
+
+
+3464 - Foul 63:
+
+Desc 63
+
+
+3480 - Offside 64:
+
+Desc 64
+
+
+3495 - Foul 65:
+
+Desc 65
+
+
+3539 - Offside 66:
+
+Desc 66
+
+
+3578 - Goal 67:
+
+Desc 67
+
+
+3623 - Goal 68:
+
+Desc 68
+
+
+3676 - Foul 69:
+
+Desc 69
+
+
+3720 - Goal 70:
+
+Desc 70
+
+
+3812 - Foul 71:
+
+Desc 71
+
+
+3833 - Offside 72:
+
+Desc 72
+
+
+3908 - Offside 73:
+
+Desc 73
+
+
+3920 - Foul 74:
+
+Desc 74
+
+
+4000 - Offside 75:
+
+Desc 75
+
+
+4075 - Foul 76:
+
+Desc 76
+
+
+4090 - Offside 77:
+
+Desc 77
+
+
+4149 - Offside 78:
+
+Desc 78
+
+
+4174 - Foul 79:
+
+Desc 79
+
+
+4265 - Offside 80:
+
+Desc 80
+
+
+4357 - Goal 81:
+
+Desc 81
+
+
+4432 - Foul 82:
+
+Desc 82
+
+
+4476 - Foul 83:
+
+Desc 83
+
+
+4534 - Goal 84:
+
+Desc 84
+
+
+4598 - Offside 85:
+
+Desc 85
+
+
+4643 - Offside 86:
+
+Desc 86
+
+
+4671 - Offside 87:
+
+Desc 87
+
+
+4733 - Goal 88:
+
+Desc 88
+
+
+4772 - Goal 89:
+
+Desc 89
+
+
+4867 - Foul 90:
+
+Desc 90
+
+
+4885 - Offside 91:
+
+Desc 91
+
+
+4967 - Offside 92:
+
+Desc 92
+
+
+5021 - Foul 93:
+
+Desc 93
+
+
+5107 - Goal 94:
+
+Desc 94
+
+
+5119 - Foul 95:
+
+Desc 95
+
+
+5135 - Goal 96:
+
+Desc 96
+
+
+5167 - Offside 97:
+
+Desc 97
+
+
+5201 - Goal 98:
+
+Desc 98
+
+
+5270 - Goal 99:
+
+Desc 99
+
+
+5330 - final whistle:
+
+Game Over
+
+

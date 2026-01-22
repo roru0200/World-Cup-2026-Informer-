@@ -40,8 +40,10 @@ public abstract class BaseServer<T> implements Server<T> {
             this.sock = serverSock; //just to be able to close
 
             while (!Thread.currentThread().isInterrupted()) {
+                System.out.println("inturrupted");
 
                 Socket clientSock = serverSock.accept();
+                System.out.println("new user accepted");
 
                 StompMessagingProtocol<T> smp = protocolFactory.get();
 

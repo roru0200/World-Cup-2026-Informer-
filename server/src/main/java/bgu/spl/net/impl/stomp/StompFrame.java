@@ -20,6 +20,7 @@ public class StompFrame {
     private String body;
 
     public StompFrame(String rawFrame){
+        System.out.println(rawFrame);
         headers = new HashMap<>();
         int cmdEnd = rawFrame.indexOf('\n');
         if (cmdEnd == -1) {

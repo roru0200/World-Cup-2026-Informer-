@@ -68,6 +68,7 @@ int main(int argc, char *argv[]) {
 				vector<string> login_frame_vector = protocol.processKeyboardMessage(line);
 				string login_frame = login_frame_vector[0];
 				handler->sendFrameAscii(login_frame, '\0');
+				cout << login_frame << endl;
 				//proccessing server response
 				string response;
 				handler->getFrameAscii(response, '\0');

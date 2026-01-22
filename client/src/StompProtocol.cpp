@@ -71,6 +71,7 @@ vector<string> StompProtocol::processKeyboardMessage(string message) {
 
 bool StompProtocol::processSocketMessage(string message) {
     StompFrame frame = stringToFrame(message);
+    cout << message << endl;
     switch (frame.command) {
         case Command::RECEIPT:
             return handleReceipt(frame);
@@ -182,28 +183,34 @@ bool StompProtocol::handleError(StompFrame& frame) {
     cout << "Error received from server: \"" << frame.headers["message"] << "\"\n";
     if (frame.body.find_first_not_of('\n') != string::npos)
         cout << "error description: " << frame.body << endl;
-    loggedIn = false;
+    if (loggedIn){
+        loggedIn = false;
+        cout<<"press enter to continue..." <<endl;
+    }
     return false;
 }
 
 bool StompProtocol::handleMessage(StompFrame& frame) {
     // extracting body and game name
     string gameName = frame.headers["destination"].substr(1); //removing the leading '/'
-    string body = frame.body;
-    // creating Event object to add to game updates
-    Event event(body);
-    // extracting reporter name from body
-    stringstream ss(body);
-    string firstLine;
-    std::getline(ss, firstLine);
-    size_t colonPos = firstLine.find(':');
-    string reporter = firstLine.substr(colonPos +1);
-    size_t reporter_start = reporter.find_first_not_of(" \t\r\n");
-    size_t reporter_end = reporter.find_last_not_of(" \t\r\n");
-    reporter = reporter.substr(reporter_start, reporter_end - reporter_start + 1);
-
-    insetToGameUpdates(gameName,reporter, event);
-    return true;
+    string subId = frame.headers["subscription"];
+    cout << "Got message " << gameName << "\n subID: " << subId;
+        string body = frame.body;
+        // creating Event object to add to game updates
+        Event event(body);
+        // extracting reporter name from body
+        stringstream ss(body);
+        string firstLine;
+        std::getline(ss, firstLine);
+        size_t colonPos = firstLine.find(':');
+        string reporter = firstLine.substr(colonPos +1);
+        size_t reporter_start = reporter.find_first_not_of(" \t\r\n");
+        size_t reporter_end = reporter.find_last_not_of(" \t\r\n");
+        reporter = reporter.substr(reporter_start, reporter_end - reporter_start + 1);
+        cout << "\nreporter: " << reporter;
+        if(reporter != username)
+            insetToGameUpdates(gameName,reporter, event);
+        return true;
 }
 
 string StompProtocol::frameToString(const StompFrame& frame) {
@@ -227,6 +234,11 @@ StompFrame StompProtocol::stringToFrame(const string& message){
     size_t currentChar = 0;
     size_t len = message.length();
     size_t commandEnd = message.find('\n', currentChar);
+    string thisCommand = message.substr(0, commandEnd);
+    size_t first = thisCommand.find_first_not_of(" \t\r\n");
+    size_t last = thisCommand.find_last_not_of(" \t\r\n");
+    thisCommand = thisCommand.substr(first, (last - first + 1));
+
     frame.command = stringToCommand(message.substr(0, commandEnd));
     currentChar = commandEnd + 1;
     while (currentChar < len && message[currentChar] != '\n') {
@@ -313,9 +325,9 @@ vector<string> StompProtocol::processReport(string path){
             firstSend = false;
         }
         else{
-            insetToGameUpdates(gameName, username, e);
             sends.push_back(sendSend(headers, eventBodyConstructor(e)));
         }
+        insetToGameUpdates(gameName, username, e);
     }
     return sends;   
 }
@@ -438,7 +450,7 @@ void StompProtocol::summary(string gameName, string userToSummerize, string path
     // Adding events to file
     for (const Event& ev : sortedEvents) {
         file << std::to_string(ev.get_time()) << " - " << ev.get_name() << ":\n\n";
-        file << ev.get_discription() << "\n\n";
+        file << ev.get_discription() << "\n\n\n";
     }
 
     file.close();

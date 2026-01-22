@@ -1,0 +1,895 @@
+{
+    "team a": "Brazil",
+    "team b": "Argentina",
+    "events": [
+        {
+            "event name": "kickoff",
+            "time": 0,
+            "general game updates": {
+                "active": "true",
+                "before halftime": "true"
+            },
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Game Start"
+        },
+        {
+            "event name": "Goal 1",
+            "time": 12,
+            "general game updates": {},
+            "team a updates": {
+                "goals": "1"
+            },
+            "team b updates": {},
+            "description": "Desc 1"
+        },
+        {
+            "event name": "Offside 2",
+            "time": 22,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 2"
+        },
+        {
+            "event name": "Goal 3",
+            "time": 101,
+            "general game updates": {},
+            "team a updates": {
+                "goals": "2"
+            },
+            "team b updates": {},
+            "description": "Desc 3"
+        },
+        {
+            "event name": "Offside 4",
+            "time": 122,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 4"
+        },
+        {
+            "event name": "Foul 5",
+            "time": 217,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 5"
+        },
+        {
+            "event name": "Foul 6",
+            "time": 266,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 6"
+        },
+        {
+            "event name": "Offside 7",
+            "time": 286,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 7"
+        },
+        {
+            "event name": "Offside 8",
+            "time": 329,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 8"
+        },
+        {
+            "event name": "Foul 9",
+            "time": 380,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 9"
+        },
+        {
+            "event name": "Goal 10",
+            "time": 462,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {
+                "goals": "1"
+            },
+            "description": "Desc 10"
+        },
+        {
+            "event name": "Offside 11",
+            "time": 490,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 11"
+        },
+        {
+            "event name": "Foul 12",
+            "time": 586,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 12"
+        },
+        {
+            "event name": "Foul 13",
+            "time": 679,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 13"
+        },
+        {
+            "event name": "Offside 14",
+            "time": 715,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 14"
+        },
+        {
+            "event name": "Goal 15",
+            "time": 747,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {
+                "goals": "2"
+            },
+            "description": "Desc 15"
+        },
+        {
+            "event name": "Foul 16",
+            "time": 762,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 16"
+        },
+        {
+            "event name": "Foul 17",
+            "time": 831,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 17"
+        },
+        {
+            "event name": "Goal 18",
+            "time": 883,
+            "general game updates": {},
+            "team a updates": {
+                "goals": "3"
+            },
+            "team b updates": {},
+            "description": "Desc 18"
+        },
+        {
+            "event name": "Foul 19",
+            "time": 918,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 19"
+        },
+        {
+            "event name": "Foul 20",
+            "time": 960,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 20"
+        },
+        {
+            "event name": "Offside 21",
+            "time": 1033,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 21"
+        },
+        {
+            "event name": "Goal 22",
+            "time": 1124,
+            "general game updates": {},
+            "team a updates": {
+                "goals": "4"
+            },
+            "team b updates": {},
+            "description": "Desc 22"
+        },
+        {
+            "event name": "Offside 23",
+            "time": 1136,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 23"
+        },
+        {
+            "event name": "Goal 24",
+            "time": 1235,
+            "general game updates": {},
+            "team a updates": {
+                "goals": "5"
+            },
+            "team b updates": {},
+            "description": "Desc 24"
+        },
+        {
+            "event name": "Foul 25",
+            "time": 1317,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 25"
+        },
+        {
+            "event name": "Goal 26",
+            "time": 1388,
+            "general game updates": {},
+            "team a updates": {
+                "goals": "6"
+            },
+            "team b updates": {},
+            "description": "Desc 26"
+        },
+        {
+            "event name": "Foul 27",
+            "time": 1456,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 27"
+        },
+        {
+            "event name": "Offside 28",
+            "time": 1533,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 28"
+        },
+        {
+            "event name": "Offside 29",
+            "time": 1615,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 29"
+        },
+        {
+            "event name": "Goal 30",
+            "time": 1692,
+            "general game updates": {},
+            "team a updates": {
+                "goals": "7"
+            },
+            "team b updates": {},
+            "description": "Desc 30"
+        },
+        {
+            "event name": "Foul 31",
+            "time": 1792,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 31"
+        },
+        {
+            "event name": "Foul 32",
+            "time": 1820,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 32"
+        },
+        {
+            "event name": "Goal 33",
+            "time": 1846,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {
+                "goals": "3"
+            },
+            "description": "Desc 33"
+        },
+        {
+            "event name": "Goal 34",
+            "time": 1930,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {
+                "goals": "4"
+            },
+            "description": "Desc 34"
+        },
+        {
+            "event name": "Goal 35",
+            "time": 1970,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {
+                "goals": "5"
+            },
+            "description": "Desc 35"
+        },
+        {
+            "event name": "Offside 36",
+            "time": 1988,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 36"
+        },
+        {
+            "event name": "Offside 37",
+            "time": 2031,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 37"
+        },
+        {
+            "event name": "Goal 38",
+            "time": 2083,
+            "general game updates": {},
+            "team a updates": {
+                "goals": "8"
+            },
+            "team b updates": {},
+            "description": "Desc 38"
+        },
+        {
+            "event name": "Goal 39",
+            "time": 2124,
+            "general game updates": {},
+            "team a updates": {
+                "goals": "9"
+            },
+            "team b updates": {},
+            "description": "Desc 39"
+        },
+        {
+            "event name": "Foul 40",
+            "time": 2164,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 40"
+        },
+        {
+            "event name": "Goal 41",
+            "time": 2215,
+            "general game updates": {},
+            "team a updates": {
+                "goals": "10"
+            },
+            "team b updates": {},
+            "description": "Desc 41"
+        },
+        {
+            "event name": "Offside 42",
+            "time": 2226,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 42"
+        },
+        {
+            "event name": "Offside 43",
+            "time": 2259,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 43"
+        },
+        {
+            "event name": "Goal 44",
+            "time": 2299,
+            "general game updates": {},
+            "team a updates": {
+                "goals": "11"
+            },
+            "team b updates": {},
+            "description": "Desc 44"
+        },
+        {
+            "event name": "Goal 45",
+            "time": 2391,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {
+                "goals": "6"
+            },
+            "description": "Desc 45"
+        },
+        {
+            "event name": "Goal 46",
+            "time": 2423,
+            "general game updates": {},
+            "team a updates": {
+                "goals": "12"
+            },
+            "team b updates": {},
+            "description": "Desc 46"
+        },
+        {
+            "event name": "Goal 47",
+            "time": 2467,
+            "general game updates": {},
+            "team a updates": {
+                "goals": "13"
+            },
+            "team b updates": {},
+            "description": "Desc 47"
+        },
+        {
+            "event name": "Goal 48",
+            "time": 2552,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {
+                "goals": "7"
+            },
+            "description": "Desc 48"
+        },
+        {
+            "event name": "Offside 49",
+            "time": 2624,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 49"
+        },
+        {
+            "event name": "Goal 50",
+            "time": 2723,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {
+                "goals": "8"
+            },
+            "description": "Desc 50"
+        },
+        {
+            "event name": "Offside 51",
+            "time": 2789,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 51"
+        },
+        {
+            "event name": "Foul 52",
+            "time": 2877,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 52"
+        },
+        {
+            "event name": "Goal 53",
+            "time": 2946,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {
+                "goals": "9"
+            },
+            "description": "Desc 53"
+        },
+        {
+            "event name": "Goal 54",
+            "time": 2977,
+            "general game updates": {},
+            "team a updates": {
+                "goals": "14"
+            },
+            "team b updates": {},
+            "description": "Desc 54"
+        },
+        {
+            "event name": "Foul 55",
+            "time": 3038,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 55"
+        },
+        {
+            "event name": "Offside 56",
+            "time": 3138,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 56"
+        },
+        {
+            "event name": "Goal 57",
+            "time": 3150,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {
+                "goals": "10"
+            },
+            "description": "Desc 57"
+        },
+        {
+            "event name": "Foul 58",
+            "time": 3199,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 58"
+        },
+        {
+            "event name": "Offside 59",
+            "time": 3220,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 59"
+        },
+        {
+            "event name": "Offside 60",
+            "time": 3277,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 60"
+        },
+        {
+            "event name": "Goal 61",
+            "time": 3362,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {
+                "goals": "11"
+            },
+            "description": "Desc 61"
+        },
+        {
+            "event name": "Offside 62",
+            "time": 3376,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 62"
+        },
+        {
+            "event name": "Foul 63",
+            "time": 3418,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 63"
+        },
+        {
+            "event name": "Offside 64",
+            "time": 3461,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 64"
+        },
+        {
+            "event name": "Offside 65",
+            "time": 3477,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 65"
+        },
+        {
+            "event name": "Foul 66",
+            "time": 3524,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 66"
+        },
+        {
+            "event name": "Foul 67",
+            "time": 3605,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 67"
+        },
+        {
+            "event name": "Offside 68",
+            "time": 3694,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 68"
+        },
+        {
+            "event name": "Foul 69",
+            "time": 3792,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 69"
+        },
+        {
+            "event name": "Offside 70",
+            "time": 3829,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 70"
+        },
+        {
+            "event name": "Goal 71",
+            "time": 3923,
+            "general game updates": {},
+            "team a updates": {
+                "goals": "15"
+            },
+            "team b updates": {},
+            "description": "Desc 71"
+        },
+        {
+            "event name": "Goal 72",
+            "time": 3988,
+            "general game updates": {},
+            "team a updates": {
+                "goals": "16"
+            },
+            "team b updates": {},
+            "description": "Desc 72"
+        },
+        {
+            "event name": "Goal 73",
+            "time": 4019,
+            "general game updates": {},
+            "team a updates": {
+                "goals": "17"
+            },
+            "team b updates": {},
+            "description": "Desc 73"
+        },
+        {
+            "event name": "Goal 74",
+            "time": 4079,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {
+                "goals": "12"
+            },
+            "description": "Desc 74"
+        },
+        {
+            "event name": "Foul 75",
+            "time": 4129,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 75"
+        },
+        {
+            "event name": "Foul 76",
+            "time": 4171,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 76"
+        },
+        {
+            "event name": "Goal 77",
+            "time": 4207,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {
+                "goals": "13"
+            },
+            "description": "Desc 77"
+        },
+        {
+            "event name": "Goal 78",
+            "time": 4287,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {
+                "goals": "14"
+            },
+            "description": "Desc 78"
+        },
+        {
+            "event name": "Goal 79",
+            "time": 4387,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {
+                "goals": "15"
+            },
+            "description": "Desc 79"
+        },
+        {
+            "event name": "Foul 80",
+            "time": 4462,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 80"
+        },
+        {
+            "event name": "Foul 81",
+            "time": 4559,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 81"
+        },
+        {
+            "event name": "Foul 82",
+            "time": 4619,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 82"
+        },
+        {
+            "event name": "Foul 83",
+            "time": 4637,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 83"
+        },
+        {
+            "event name": "Offside 84",
+            "time": 4686,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 84"
+        },
+        {
+            "event name": "Offside 85",
+            "time": 4709,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 85"
+        },
+        {
+            "event name": "Foul 86",
+            "time": 4726,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 86"
+        },
+        {
+            "event name": "Foul 87",
+            "time": 4783,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 87"
+        },
+        {
+            "event name": "Goal 88",
+            "time": 4874,
+            "general game updates": {},
+            "team a updates": {
+                "goals": "18"
+            },
+            "team b updates": {},
+            "description": "Desc 88"
+        },
+        {
+            "event name": "Goal 89",
+            "time": 4942,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {
+                "goals": "16"
+            },
+            "description": "Desc 89"
+        },
+        {
+            "event name": "Goal 90",
+            "time": 4979,
+            "general game updates": {},
+            "team a updates": {
+                "goals": "19"
+            },
+            "team b updates": {},
+            "description": "Desc 90"
+        },
+        {
+            "event name": "Goal 91",
+            "time": 5056,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {
+                "goals": "17"
+            },
+            "description": "Desc 91"
+        },
+        {
+            "event name": "Foul 92",
+            "time": 5111,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 92"
+        },
+        {
+            "event name": "Foul 93",
+            "time": 5205,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 93"
+        },
+        {
+            "event name": "Offside 94",
+            "time": 5292,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 94"
+        },
+        {
+            "event name": "Goal 95",
+            "time": 5338,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {
+                "goals": "18"
+            },
+            "description": "Desc 95"
+        },
+        {
+            "event name": "Goal 96",
+            "time": 5392,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {
+                "goals": "19"
+            },
+            "description": "Desc 96"
+        },
+        {
+            "event name": "Offside 97",
+            "time": 5491,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 97"
+        },
+        {
+            "event name": "Offside 98",
+            "time": 5549,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 98"
+        },
+        {
+            "event name": "Offside 99",
+            "time": 5630,
+            "general game updates": {},
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Desc 99"
+        },
+        {
+            "event name": "final whistle",
+            "time": 5690,
+            "general game updates": {
+                "active": "false"
+            },
+            "team a updates": {},
+            "team b updates": {},
+            "description": "Game Over"
+        }
+    ]
+}

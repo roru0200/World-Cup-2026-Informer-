@@ -1,0 +1,515 @@
+Brazil vs Argentina
+Game stats:
+General stats:
+active: false
+before halftime: true
+Brazil stats:
+goals: 19
+Argentina stats:
+goals: 19
+Game event reports:
+0 - kickoff:
+
+Game Start
+
+
+12 - Goal 1:
+
+Desc 1
+
+
+22 - Offside 2:
+
+Desc 2
+
+
+101 - Goal 3:
+
+Desc 3
+
+
+122 - Offside 4:
+
+Desc 4
+
+
+217 - Foul 5:
+
+Desc 5
+
+
+266 - Foul 6:
+
+Desc 6
+
+
+286 - Offside 7:
+
+Desc 7
+
+
+329 - Offside 8:
+
+Desc 8
+
+
+380 - Foul 9:
+
+Desc 9
+
+
+462 - Goal 10:
+
+Desc 10
+
+
+490 - Offside 11:
+
+Desc 11
+
+
+586 - Foul 12:
+
+Desc 12
+
+
+679 - Foul 13:
+
+Desc 13
+
+
+715 - Offside 14:
+
+Desc 14
+
+
+747 - Goal 15:
+
+Desc 15
+
+
+762 - Foul 16:
+
+Desc 16
+
+
+831 - Foul 17:
+
+Desc 17
+
+
+883 - Goal 18:
+
+Desc 18
+
+
+918 - Foul 19:
+
+Desc 19
+
+
+960 - Foul 20:
+
+Desc 20
+
+
+1033 - Offside 21:
+
+Desc 21
+
+
+1124 - Goal 22:
+
+Desc 22
+
+
+1136 - Offside 23:
+
+Desc 23
+
+
+1235 - Goal 24:
+
+Desc 24
+
+
+1317 - Foul 25:
+
+Desc 25
+
+
+1388 - Goal 26:
+
+Desc 26
+
+
+1456 - Foul 27:
+
+Desc 27
+
+
+1533 - Offside 28:
+
+Desc 28
+
+
+1615 - Offside 29:
+
+Desc 29
+
+
+1692 - Goal 30:
+
+Desc 30
+
+
+1792 - Foul 31:
+
+Desc 31
+
+
+1820 - Foul 32:
+
+Desc 32
+
+
+1846 - Goal 33:
+
+Desc 33
+
+
+1930 - Goal 34:
+
+Desc 34
+
+
+1970 - Goal 35:
+
+Desc 35
+
+
+1988 - Offside 36:
+
+Desc 36
+
+
+2031 - Offside 37:
+
+Desc 37
+
+
+2083 - Goal 38:
+
+Desc 38
+
+
+2124 - Goal 39:
+
+Desc 39
+
+
+2164 - Foul 40:
+
+Desc 40
+
+
+2215 - Goal 41:
+
+Desc 41
+
+
+2226 - Offside 42:
+
+Desc 42
+
+
+2259 - Offside 43:
+
+Desc 43
+
+
+2299 - Goal 44:
+
+Desc 44
+
+
+2391 - Goal 45:
+
+Desc 45
+
+
+2423 - Goal 46:
+
+Desc 46
+
+
+2467 - Goal 47:
+
+Desc 47
+
+
+2552 - Goal 48:
+
+Desc 48
+
+
+2624 - Offside 49:
+
+Desc 49
+
+
+2723 - Goal 50:
+
+Desc 50
+
+
+2789 - Offside 51:
+
+Desc 51
+
+
+2877 - Foul 52:
+
+Desc 52
+
+
+2946 - Goal 53:
+
+Desc 53
+
+
+2977 - Goal 54:
+
+Desc 54
+
+
+3038 - Foul 55:
+
+Desc 55
+
+
+3138 - Offside 56:
+
+Desc 56
+
+
+3150 - Goal 57:
+
+Desc 57
+
+
+3199 - Foul 58:
+
+Desc 58
+
+
+3220 - Offside 59:
+
+Desc 59
+
+
+3277 - Offside 60:
+
+Desc 60
+
+
+3362 - Goal 61:
+
+Desc 61
+
+
+3376 - Offside 62:
+
+Desc 62
+
+
+3418 - Foul 63:
+
+Desc 63
+
+
+3461 - Offside 64:
+
+Desc 64
+
+
+3477 - Offside 65:
+
+Desc 65
+
+
+3524 - Foul 66:
+
+Desc 66
+
+
+3605 - Foul 67:
+
+Desc 67
+
+
+3694 - Offside 68:
+
+Desc 68
+
+
+3792 - Foul 69:
+
+Desc 69
+
+
+3829 - Offside 70:
+
+Desc 70
+
+
+3923 - Goal 71:
+
+Desc 71
+
+
+3988 - Goal 72:
+
+Desc 72
+
+
+4019 - Goal 73:
+
+Desc 73
+
+
+4079 - Goal 74:
+
+Desc 74
+
+
+4129 - Foul 75:
+
+Desc 75
+
+
+4171 - Foul 76:
+
+Desc 76
+
+
+4207 - Goal 77:
+
+Desc 77
+
+
+4287 - Goal 78:
+
+Desc 78
+
+
+4387 - Goal 79:
+
+Desc 79
+
+
+4462 - Foul 80:
+
+Desc 80
+
+
+4559 - Foul 81:
+
+Desc 81
+
+
+4619 - Foul 82:
+
+Desc 82
+
+
+4637 - Foul 83:
+
+Desc 83
+
+
+4686 - Offside 84:
+
+Desc 84
+
+
+4709 - Offside 85:
+
+Desc 85
+
+
+4726 - Foul 86:
+
+Desc 86
+
+
+4783 - Foul 87:
+
+Desc 87
+
+
+4874 - Goal 88:
+
+Desc 88
+
+
+4942 - Goal 89:
+
+Desc 89
+
+
+4979 - Goal 90:
+
+Desc 90
+
+
+5056 - Goal 91:
+
+Desc 91
+
+
+5111 - Foul 92:
+
+Desc 92
+
+
+5205 - Foul 93:
+
+Desc 93
+
+
+5292 - Offside 94:
+
+Desc 94
+
+
+5338 - Goal 95:
+
+Desc 95
+
+
+5392 - Goal 96:
+
+Desc 96
+
+
+5491 - Offside 97:
+
+Desc 97
+
+
+5549 - Offside 98:
+
+Desc 98
+
+
+5630 - Offside 99:
+
+Desc 99
+
+
+5690 - final whistle:
+
+Game Over
+
+

@@ -1,0 +1,24 @@
+Brazil vs Serbia
+Game stats:
+General stats:
+active: false
+before halftime: false
+Brazil stats:
+goals: 1
+Serbia stats:
+Game event reports:
+0 - kickoff:
+
+Start.
+
+
+3720 - Goal:
+
+Richarlison scores.
+
+
+5400 - final whistle:
+
+End.
+
+

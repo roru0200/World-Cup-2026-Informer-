@@ -1,0 +1,267 @@
+StressTeamA vs StressTeamB
+Game stats:
+General stats:
+active: false
+before halftime: false
+StressTeamA stats:
+goals: 6
+possession: 70%
+StressTeamB stats:
+goals: 7
+possession: 30%
+Game event reports:
+0 - kickoff:
+
+Game started.
+
+
+79 - Possession Update 1:
+
+Description for event 1 - Possession Update
+
+
+175 - Foul 2:
+
+Description for event 2 - Foul
+
+
+372 - Foul 3:
+
+Description for event 3 - Foul
+
+
+588 - Goal 4:
+
+Description for event 4 - Goal
+
+
+856 - Yellow Card 5:
+
+Description for event 5 - Yellow Card
+
+
+979 - Possession Update 6:
+
+Description for event 6 - Possession Update
+
+
+1079 - Yellow Card 7:
+
+Description for event 7 - Yellow Card
+
+
+1199 - Possession Update 8:
+
+Description for event 8 - Possession Update
+
+
+1395 - Yellow Card 9:
+
+Description for event 9 - Yellow Card
+
+
+1494 - Possession Update 10:
+
+Description for event 10 - Possession Update
+
+
+1751 - Foul 11:
+
+Description for event 11 - Foul
+
+
+1814 - Goal 12:
+
+Description for event 12 - Goal
+
+
+2072 - Goal 13:
+
+Description for event 13 - Goal
+
+
+2279 - Foul 14:
+
+Description for event 14 - Foul
+
+
+2427 - Goal 15:
+
+Description for event 15 - Goal
+
+
+2633 - Goal 16:
+
+Description for event 16 - Goal
+
+
+2855 - Goal 17:
+
+Description for event 17 - Goal
+
+
+3042 - Goal 18:
+
+Description for event 18 - Goal
+
+
+3242 - Yellow Card 19:
+
+Description for event 19 - Yellow Card
+
+
+3426 - Foul 20:
+
+Description for event 20 - Foul
+
+
+3570 - Yellow Card 21:
+
+Description for event 21 - Yellow Card
+
+
+3630 - Possession Update 22:
+
+Description for event 22 - Possession Update
+
+
+3882 - Goal 23:
+
+Description for event 23 - Goal
+
+
+4017 - Foul 24:
+
+Description for event 24 - Foul
+
+
+4300 - halftime:
+
+Description for event 25 - Possession Update
+
+
+4500 - Yellow Card 26:
+
+Description for event 26 - Yellow Card
+
+
+4562 - Yellow Card 27:
+
+Description for event 27 - Yellow Card
+
+
+4859 - Foul 28:
+
+Description for event 28 - Foul
+
+
+5111 - Possession Update 29:
+
+Description for event 29 - Possession Update
+
+
+5194 - Foul 30:
+
+Description for event 30 - Foul
+
+
+5403 - Foul 31:
+
+Description for event 31 - Foul
+
+
+5637 - Possession Update 32:
+
+Description for event 32 - Possession Update
+
+
+5733 - Goal 33:
+
+Description for event 33 - Goal
+
+
+5991 - Goal 34:
+
+Description for event 34 - Goal
+
+
+6079 - Possession Update 35:
+
+Description for event 35 - Possession Update
+
+
+6322 - Foul 36:
+
+Description for event 36 - Foul
+
+
+6502 - Yellow Card 37:
+
+Description for event 37 - Yellow Card
+
+
+6673 - Foul 38:
+
+Description for event 38 - Foul
+
+
+6808 - Foul 39:
+
+Description for event 39 - Foul
+
+
+6935 - Yellow Card 40:
+
+Description for event 40 - Yellow Card
+
+
+7075 - Yellow Card 41:
+
+Description for event 41 - Yellow Card
+
+
+7287 - Possession Update 42:
+
+Description for event 42 - Possession Update
+
+
+7551 - Goal 43:
+
+Description for event 43 - Goal
+
+
+7801 - Goal 44:
+
+Description for event 44 - Goal
+
+
+7866 - Yellow Card 45:
+
+Description for event 45 - Yellow Card
+
+
+7976 - Goal 46:
+
+Description for event 46 - Goal
+
+
+8150 - Yellow Card 47:
+
+Description for event 47 - Yellow Card
+
+
+8350 - Possession Update 48:
+
+Description for event 48 - Possession Update
+
+
+8579 - Possession Update 49:
+
+Description for event 49 - Possession Update
+
+
+8639 - final whistle:
+
+Game Over.
+
+

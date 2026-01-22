@@ -1,0 +1,45 @@
+Argentina vs France
+Game stats:
+General stats:
+active: false
+before halftime: false
+Argentina stats:
+goals: 2
+France stats:
+goals: 2
+Game event reports:
+0 - kickoff:
+
+Start.
+
+
+1380 - Goal:
+
+Messi scores.
+
+
+2160 - Goal:
+
+Di Maria scores.
+
+
+2700 - halftime:
+
+Halftime.
+
+
+4800 - Goal:
+
+Mbappe scores.
+
+
+4860 - Goal:
+
+Mbappe ties it!
+
+
+5400 - final whistle:
+
+End.
+
+

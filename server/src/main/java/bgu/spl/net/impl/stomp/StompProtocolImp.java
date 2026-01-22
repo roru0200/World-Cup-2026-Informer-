@@ -33,6 +33,8 @@ public class StompProtocolImp implements StompMessagingProtocol<StompFrame> {
     }
     
     public void process(StompFrame message){
+        System.out.println(message);
+        
         recieptId = null;
         if(message.needsReceipt())
             recieptId = message.getHeaders().get("receipt");
@@ -156,11 +158,11 @@ public class StompProtocolImp implements StompMessagingProtocol<StompFrame> {
             
             if (subscribers != null) {
                 for (Map.Entry<Integer, String> entry : subscribers.entrySet()) {
-                    int subscriberConnId = entry.getKey();
-                    String subscriberSubId = entry.getValue();
-                    StompFrame outMsg = createMessage(message); 
-                    outMsg.getHeaders().put("subscription", subscriberSubId);
-                    connections.send(subscriberConnId, outMsg);
+                        int subscriberConnId = entry.getKey();
+                        String subscriberSubId = entry.getValue();
+                        StompFrame outMsg = createMessage(message); 
+                        outMsg.getHeaders().put("subscription", subscriberSubId);
+                        connections.send(subscriberConnId, outMsg);
                 }
             }
             return true;
@@ -328,11 +330,12 @@ public class StompProtocolImp implements StompMessagingProtocol<StompFrame> {
     }
 
     @Override
-    public void close(){   
+    public void close(){ 
+        connections.disconnect(myId);
+        shouldTerminate = true;
+        
         if (isLoggedIn){   
-            connections.disconnect(myId);
             isLoggedIn = false;
-            shouldTerminate = true;
             db.logout(myId);
         }
     }
