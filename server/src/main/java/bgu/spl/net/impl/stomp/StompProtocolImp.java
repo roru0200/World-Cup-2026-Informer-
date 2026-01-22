@@ -140,6 +140,13 @@ public class StompProtocolImp implements StompMessagingProtocol<StompFrame> {
         else{
             String destination = headers.get("destination");
             ConcurrentHashMap<Integer, String> subscribers = connections.getSubscribers(destination);
+            
+            if(!subscribers.containsKey(myId)){
+                HashMap<String, String> errorHeaders = new HashMap<>();
+                errorHeaders.put("message", "You are not subscribed to channel " + destination.substring(1));
+                processError(errorHeaders, "\n");
+                return false;
+            }
 
             String fileName = headers.get("file-name");
             String firstLine = message.getBody().split("\n")[0];
