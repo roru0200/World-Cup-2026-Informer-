@@ -123,7 +123,7 @@ public class StompProtocolImp implements StompMessagingProtocol<StompFrame> {
     private boolean processSend(StompFrame message){
         HashMap<String, String> headers = message.getHeaders();
         String missingHeader = findMissingHeader(headers, "destination");
-        
+
         if(missingHeader != null){
             HashMap<String, String> errorHeaders = new HashMap<>();
             errorHeaders.put("message", "malformed frame recieved");
@@ -132,9 +132,17 @@ public class StompProtocolImp implements StompMessagingProtocol<StompFrame> {
             processError(errorHeaders, body);
             return false;
         }
+        
         else{
             String destination = headers.get("destination");
             ConcurrentHashMap<Integer, String> subscribers = connections.getSubscribers(destination);
+
+            String fileName = headers.get("file-name");
+            String firstLine = message.getBody().split("\n")[0];
+            String userName = firstLine.split(":")[1].trim();
+            if(fileName != null)
+                connections.addFile(userName, fileName, destination.substring(1));
+                
             
             if (subscribers != null) {
                 for (Map.Entry<Integer, String> entry : subscribers.entrySet()) {

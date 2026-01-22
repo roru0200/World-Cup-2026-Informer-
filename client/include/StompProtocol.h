@@ -27,7 +27,7 @@ struct StompFrame {
         };
 
     Command command;
-    map<std::string, string> headers;
+    map<string, string> headers;
     string body;
 
     StompFrame(Command cmd, map<string, string> hdrs, string b)
@@ -71,7 +71,7 @@ private:
 	string sendLogout();
 	string sendSubscribe(string gameName);
 	string sendUnsubscribe(string gameName);
-	string sendSend(string destination, string message);
+	string sendSend(map<string, string> headers, string message);
     vector<string> processReport(string path);
 
     //frame handlers

@@ -157,11 +157,11 @@ string StompProtocol::sendUnsubscribe(string gameName) {
 
 }
 
-string StompProtocol::sendSend(string destination, string message) {
+string StompProtocol::sendSend(map<string, string> headers, string message) {
     // TODO: Implement logic
     StompFrame frame;
     frame.command = Command::SEND;
-    frame.headers["destination"] = destination;
+    frame.headers = headers;
     frame.body = message;
 
     return frameToString(frame);
@@ -291,11 +291,21 @@ vector<string> StompProtocol::processReport(string path){
     names_and_events events = parseEventsFile(path);
     vector<Event> newEvents = events.events;
     string gameName = events.team_a_name + "_" + events.team_b_name;
-    string destinantion = "/" + gameName;
+    map<string, string> headers;
+    headers["destination"] = "/" + gameName;
     vector<string> sends;
+    bool firstSend = true;
     for(Event e : newEvents){
-        insetToGameUpdates(gameName, username, e);
-        sends.push_back(sendSend(destinantion, eventBodyConstructor(e)));
+        if(firstSend){
+            headers["file-name"] = path;
+            sends.push_back(sendSend(headers, eventBodyConstructor(e)));
+            headers.erase("file-name");
+            firstSend = false;
+        }
+        else{
+            insetToGameUpdates(gameName, username, e);
+            sends.push_back(sendSend(headers, eventBodyConstructor(e)));
+        }
     }
     return sends;   
 }

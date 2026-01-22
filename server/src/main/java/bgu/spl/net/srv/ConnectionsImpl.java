@@ -86,4 +86,8 @@ public class ConnectionsImpl<T> implements Connections<T> {
     public LoginStatus login(int connectionId, String username, String password){
         return db.login(connectionId, username, password);
     }
+
+    public void addFile(String user_name, String file_name, String game_channel){
+        db.trackFileUpload(file_name, file_name, file_name);
+    }
 }
