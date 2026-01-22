@@ -161,7 +161,7 @@ string StompProtocol::sendSend(string destination, string message) {
     // TODO: Implement logic
     StompFrame frame;
     frame.command = Command::SEND;
-    frame.headers["destination"] = "/" + destination;
+    frame.headers["destination"] = destination;
     frame.body = message;
 
     return frameToString(frame);
